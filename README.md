@@ -7,3 +7,11 @@ Catalogs
 - [Homeworks](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Homeworks)
 - [Reports](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Reports)
 - [Slide](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Slides)
+
+
+
+Models
+- regresja liniowa
+- regresja logistyczna
+- random forest
+- gradient boosting, xgboost, catboost, lightgbm
