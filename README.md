@@ -11,7 +11,7 @@ Catalogs
 
 
 Models
-- regresja liniowa
-- regresja logistyczna
+- linear regression
+- logistic regression
 - random forest
 - gradient boosting, xgboost, catboost, lightgbm
