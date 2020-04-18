@@ -5,7 +5,7 @@ This repository is a collection of codes and results obtained within the student
 
 
 ### Literature 
-- [Papers](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Literatura)
+- [Papers](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Literature)
 ### Data
 - [Data analysis](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Data)
 - [External data](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Data)
