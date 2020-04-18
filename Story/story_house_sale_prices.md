@@ -24,7 +24,51 @@ We have divided our work into several stages, below we present a diagram with a 
 
 ![](images/plan.png)<!-- -->
 
-This dataset contains house sale prices for King County, which includes Seattle. It includes homes sold between May 2014 and May 2015.
+We started our work with a literature review. Many works show a comparison of hedonistic models (linear regression) and machine learning models. Below there is a plot with comparison of results achieved by interpretable models (hedonic model) and black box model (ANN) based on the article \@ref(house_prices).
+
+![](images/model_article.png)<!-- -->
+
+
+We can conclude that we reduce the interpretability to an increase in the quality of model fitting.
+
+The next point was data analysis, we work on dataset which contains house sale prices for King County, which includes Seattle. It is include homes sold between May 2014 and May 2015. Data available on [kaggle](https://www.kaggle.com/harlfoxem/housesalesprediction) and [openml](https://www.openml.org/d/42079).
+We have analyzed the data. More [link](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Reports/DataAnalysis). Data contains 19 house features plus the price and the id columns, along with 21613 observations. 
+
+- `id` unique ID for each home sold
+- `date` date of the home sale
+- `price` price of each home sold
+- `bedrooms` number of bedrooms
+- `bathrooms` number of bathrooms, where .5 accounts for a room with a toilet but no shower
+- `sqft_living` square footage of the apartments interior living space
+- `sqft_lot` square footage of the land space
+- `floors` sumber of floors
+- `waterfront` apartment was overlooking the waterfront or not
+- `view` how good the view of the property was
+- `condition` condition of the apartment
+- `grade` level of construction and design
+- `sqft_above` the square footage of the interior housing space that is above ground level
+- `sqft_basement` the square footage of the interior housing space that is below ground level
+- `yr_built` the year the house was initially built
+- `yr_renovated` the year of the house's last renovation
+- `zipcode` zipcode area
+- `lat` lattitude
+- `long` longitude
+- `sqft_living15` the square footage of interior housing living space for the nearest 15 neighbors
+- `sqft_lot15` the square footage of the land lots of the nearest 15 neighbors
+
+We have collected methods to evaluate the performance of the regression model, we decided to use RMSRE (root mean square relative errors), because the difference of 50 thousand on a property worth millions and 50 thousand on a property worth 200 thousand is quite considerable. More about measures [link](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Reports/ModelAssessment).
+
+Based on the literature we decided to test the following models:
+- fixed effects model
+- random effects model
+- Spatial Autoregressive (SAR) model
+- linear regression
+- decision tree
+- random forest
+- gradient boosting, xgboost
+
+Another idea how to enrich our solution was to add external data. The location of the property can significantly affect the price, so we also took into account the distance from public transport and the number of cultural facilities within a kilometre radius.
+
 
 ## Model 
 
