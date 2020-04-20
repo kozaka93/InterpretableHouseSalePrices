@@ -4,11 +4,22 @@
 
 *Mentors: Mateusz Zawisza (McKinsey & Company), Adam Zmaczyński (McKinsey & Company)*
 
+> ,,That's all your house is: it's a place to keep your stuff while you go out and get more stuff.''
+>
+> `r tufte::quote_footer('George Carlin')`
+
 ## Introduction 
 
-The problem we're working on is really important, and at some point in your life most people will have to deal with it. We are talking about buy/sell of real estate. Additionally, such a probelm is also used for commercial purposes because of developers or auction portals. Let's start with a few questions that will allow us to understand and define the problems
+Everybody needs a roof over their heads. It can be a house, villa or a flat. Everybody, at some point of life, faces a choice if to buy a house. If so, which one. And why they are so expensive?
 
-- *The seller does not know how to increase the cost of the apartment so that the investment outlay is lower than the added value (buying a basement will increase the price and renovating the bathroom is not worth it).*
+Topic of real estates is not only the topic you just have to deal with. It can also be very interesting. There are plenty of TV Shows, for instance *Property Brothers*, of which plot is based on examples of people buying and renovating houses. This particular one is the most famous in the world and has been running already almost a decade. 
+For many people houses are also products to buy and sell with income.
+
+Regardless of motives of buy/sell real estate, both sides agree to a price. It is always good to know, **how much** it is worth, what's the fair/true value. And, maybe it's even more important, **why** the price is like that, what has an influence on it.
+
+In this work we want to try to find an answer to both questions with stronger emphasis on the second one. This paper is intended to be a complete use cases how to deal with regression problem for Data Scientists. Let's start with a couple of questions that will allow us to understand and define the problems
+
+- *The seller does not know how to increase the cost of the apartment so that the investment outlay is lower than the added value (e.g. building a pool will increase the price and renovating the bathroom is not worth it).*
 
 - *The seller does not know how much to sell the apartment for (he makes an offer on the portal and does not know if the price is fair).*
 
@@ -24,7 +35,7 @@ We have divided our work into several stages, below we present a diagram with a 
 
 ![](images/plan.png)<!-- -->
 
-We started our work with a literature review. Many works show a comparison of hedonistic models (linear regression) and machine learning models. Below there is a plot with comparison of results achieved by interpretable models (hedonic model) and black box model (ANN) based on the article \@ref(house_prices).
+We started our work with a literature review. Many works show a comparison of hedonistic models (linear regression) and machine learning models. Below there is a plot with comparison of results achieved by models interpretable by design (hedonistic) and black box model (ANN) based on the article \@ref(house_prices).
 
 ![](images/model_article.png)<!-- -->
 
