@@ -10,12 +10,13 @@ We have divided our work into several stages, below we present a diagram with a 
 - [Papers](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Literature)
 ### Data
 - [Data analysis](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Data/DataAnalysis)
-- [External data](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Data)
+- [External data](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Data/ExternalData)
+- [Feature engineering](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Data/TrainAndTest)
 ### Models
-- Model assessment methods
-- Model selection
-- Predictive models
-- Model assessment
+- [Model assessment methods](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Models/ModelAssessmentMethods)
+- [Model selection](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Models/ModelSelection)
+- [Predictive models](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Models/PredictiveModels)
+- [Model assessment](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Models/ModelAssessment)
 ### Explanations
 - Buyer
 - Seller
