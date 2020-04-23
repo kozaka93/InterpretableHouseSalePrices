@@ -1,5 +1,5 @@
 ---
-title: "Analiza zbioru danych House Sales Prices"
+title: "Analysis of House Sales Prices Dataset"
 author: "Anna Kozak"
 output: 
   html_document:
@@ -15,213 +15,204 @@ library(ggplot2)
 library(gridExtra)
 library(lubridate)
 options(scipen = 999)
-dane <- read.csv("../Homeworks/H2/AnnaKozak/kc_house_data.csv")
-dane$years <- year(Sys.time()) - dane$yr_built
-dane$years_from_renovation <- year(Sys.time()) - dane$yr_renovated
+train <- read.csv("../TrainAndTest/train.csv")
+test <- read.csv("../TrainAndTest/test.csv")
+data <- data.frame(rbind(train, test))
 ```
 
-## Zbiór House Sales Prices
+## House Sales Prices Datset
+
+The following analysis has been prepared on a data collection describing the sale of houses (House Sales Prices). Below is a list of variables:
+
+## Variables
+
+- `bedrooms` number of bedrooms
+- `bathrooms` number of bathrooms, where .5 accounts for a room with a toilet but no shower
+- `floors` number of floors
+- `waterfront` apartment was overlooking the waterfront or not
+- `view` how good the view of the property was
+- `condition` condition of the apartment
+- `grade` level of construction and design
+- `zipcode` zipcode area
+- `lat` lattitude
+- `long` longitude
+- `dist_stop` the distance from public transport 
+- `ncult` number of cultural facilities within a kilometre radius
+- `age` age of house
+- `since_renovated` number of age from the house's last renovation
+- `m2_living` square meter of the apartments interior living space
+- `m2_lot` square meter of the land space
+- `m2_above` the square meter of the interior housing space that is above ground level
+- `m2_basement` the square meter of the interior housing space that is below ground level
+- `m2_living15` the square meter of interior housing living space for the nearest 15 neighbors
+- `m2_lot15` the square meter of the land lots of the nearest 15 neighbors
+- `price_log` logarithm of price of each home sold   
 
 
-Poniższa analiza została przygotowana na zbiorze danych opisujących sprzedaż domów (House Sales Prices). Poniżej lista zmiennych:
+### Logarithm of price
 
-## Zmienne 
-
-- `id` numer id
-- `date` data
-- `price` cena nieruchomości
-- `bedrooms` liczba sypialni
-- `bathrooms` liczba łazienek
-- `sqft_living` powierzchnia użytkowa
-- `sqft_lot` powierzchnia gruntu
-- `floors` liczba pięter
-- `waterfront` czy nad wodą
-- `view` jakość widoku
-- `condition` stan 
-- `grade` jakość konstrukcji i wykończenia
-- `sqft_above` powierzchnia pięter
-- `sqft_basement` powierzchnia piwnicy
-- `yr_built` rok budowy
-- `yr_renovated`rok remontu
-- `zipcode` kod pocztowy
-- `lat` szerokość geograficzna
-- `long` długość geograficzna
-- `sqft_living15` średnia powierzchnia użytkowa dla 15-Nearest Neighbors
-- `sqft_lot15` średnia powierzchnia gruntu dla 15-Nearest Neighbors
-
-### Cena 
-
-
-Poniżej wykres gęstości oraz boxplot opisujący zmienną `price`. Jak możemy zauważyć rozkład tej zmiennej jest skośny. Mediana ceny nieruchomości wynosi 450000. Mamy dużo obserwacji odstających.
-
+Below is a density and boxplot plot describing the variable `price_log`. 
 
 ```{r}
-p1 <- ggplot(dane, aes(x=price)) + 
+p1 <- ggplot(data, aes(x=price_log)) + 
   theme_bw() +
   geom_density(fill = "navy", alpha = 0.4) +
-  labs(x = "Cena", y = " Gęstość")
-p2 <- ggplot(dane, aes(x = price)) + 
+  labs(x = "Logarithm of price", y = "Density")
+p2 <- ggplot(data, aes(x = price_log)) + 
   theme_bw() +
   geom_boxplot(fill = "navy", alpha = 0.4) + 
   theme(axis.text.y = element_blank(), axis.ticks.y = element_blank()) + 
-  labs(x = "Cena")
+  labs(x = "Logarithm of price")
 
 grid.arrange(p1, p2, nrow = 2, heights = c(2, 1))
 ```
 
-### Zależność ceny od zmiennych 
+### Relationship between logarithm of price  and other variables
 
-#### Liczba sypialni
+#### Number of bedrooms
 
 ```{r}
-ggplot(dane, aes(x = as.factor(bedrooms), y = price, fill = as.factor(bedrooms))) + 
+ggplot(data, aes(x = as.factor(bedrooms), y = price_log, fill = as.factor(bedrooms))) + 
   geom_boxplot() + 
   theme_bw() +
-  labs(x = "Liczba sypialni", y = "Cena", fill = "") +
+  labs(x = "Number of bedrooms", y = "Logarithm of price", fill = "") +
   theme(legend.position = "none")
 ```
 
-#### Liczba łazienek
+#### Number of bathrooms
 
 ```{r}
-ggplot(dane, aes(x = as.factor(bathrooms), y = price, fill = as.factor(bathrooms))) + 
+ggplot(data, aes(x = as.factor(bathrooms), y = price_log, fill = as.factor(bathrooms))) + 
   geom_boxplot() + 
   theme_bw() +
-  labs(x = "Liczba łazienek", y = "Cena", fill = "") +
+  labs(x = "Number of bathrooms", y = "Logarithm of price", fill = "") +
   theme(legend.position = "none")
 ```
 
 
-#### Liczba pięter
+#### Number of floor
 
 ```{r}
-ggplot(dane, aes(x = as.factor(floors), y = price, fill = as.factor(floors))) + 
+ggplot(data, aes(x = as.factor(floors), y = price_log, fill = as.factor(floors))) + 
   geom_boxplot() + 
   theme_bw() +
-  labs(x = "Liczba pięter", y = "Cena", fill = "") +
+  labs(x = "Number of floor", y = "Logarithm of price", fill = "") +
   theme(legend.position = "none")
 ```
 
-#### Stan
+#### Condition
 
 
 ```{r}
-ggplot(dane, aes( x= as.factor(condition), y = price, fill = as.factor(condition))) + 
+ggplot(data, aes( x= as.factor(condition), y = price_log, fill = as.factor(condition))) + 
   geom_boxplot() + 
   theme_bw() +
-  labs(x = "Stan", y = "Cena", fill = "") +
+  labs(x = "Condition", y = "Logarithm of price", fill = "") +
   theme(legend.position = "none")
 ```
 
-#### Jakoś konstrukcji i wykończenia 
+#### Grade
 
 ```{r}
-ggplot(dane, aes(x = as.factor(grade), y = price, fill = as.factor(grade))) + 
+ggplot(data, aes(x = as.factor(grade), y = price_log, fill = as.factor(grade))) + 
   geom_boxplot() + 
   theme_bw() +
-  labs(x = "Jakość konstrukcji i wykończenia", y = "Cena", fill = "") +
+  labs(x = "Grade", y = "Logarithm of price", fill = "") +
   theme(legend.position = "none")
 ```
 
-#### Rok budowy
+#### Year of construction
 
 
 ```{r}
-ggplot(dane, aes(x = as.factor(yr_built), y = price, fill = as.factor(yr_built))) + 
+ggplot(data, aes(x = as.factor(2020 - age), y = price_log, fill = as.factor(2020 - age))) + 
   geom_boxplot() + 
   theme_bw() +
-  labs(x = "Rok budowy", y = "Cena", fill = "") +
+  labs(x = "Year of construction", y = "Logarithm of price", fill = "") +
   theme(legend.position = "none") + 
   theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 6))
 ```
 
-Zależność roku budowy nieruchomości od ceny. Ograniczenie do nieruchomości, których cena jest niższa niż 1 mln. Niewielki wzrost ceny dla obserwacji, które zostały zbudowane na początku XX wieku oraz początku XXI wieku.
 
-#### Rok budowy dla nieruchomości poniżej ceny 1 mln
+
+#### Construction year for property below 1 million
 
 ```{r}
-ggplot(dane[dane$price < 1000000,], aes(x = as.factor(yr_built), y = price, fill = as.factor(yr_built))) + 
+ggplot(data[data$price_log < log(1000000),], aes(x = as.factor(2020 - age), y = price_log, fill = as.factor(2020 - age))) + 
   geom_boxplot() + 
   theme_bw() +
-  labs(x = "Rok budowy", y = "Cena", fill = "") +
+  labs(x = "Year of construction", y = "Logarithm of price", fill = "") +
   theme(legend.position = "none") + 
-  theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 6))
+  theme(axis.text.x = element_text(angle = 90, size = 6))
 ```
 
-#### Jakość widoku
+#### View
 
 
 ```{r}
-ggplot(dane, aes(x = as.factor(view), y = price, fill = as.factor(view))) + 
+ggplot(data, aes(x = as.factor(view), y = price_log, fill = as.factor(view))) + 
   geom_boxplot() + 
   theme_bw() +
-  labs(x = "Jakość widoku", y = "Cena", fill = "") +
+  labs(x = "View", y = "Logarithm of price", fill = "") +
   theme(legend.position = "none")
 ```
 
-### Inne zależności
+### Other dependencies
 
 ```{r}
-ggplot(dane, aes(x = sqft_living, y = price)) + 
+ggplot(data, aes(x = m2_living, y = price_log)) + 
   geom_point(color = "navy", alpha = 0.4) + 
   theme_bw() +
-  labs(x = "Powierzchnia użytkowa", y = "Cena") 
-```
-
-```{r}
-ggplot(dane, aes(x = sqft_living, y = log(price))) + 
-  geom_point(color = "navy", alpha = 0.4) + 
-  theme_bw() +
-  labs(x = "Powierzchnia użytkowa", y = "log(Cena)") 
-```
-
-```{r}
-ggplot(dane, aes(x = sqft_living, y = bedrooms)) + 
-  geom_point(color = "navy", alpha = 0.4) + 
-  theme_bw() +
-  labs(x = "Powierzchnia użytkowa", y = "Liczba sypialni")
+  labs(x = "Living", y = "Logarithm of price") 
 ```
 
 
-Poniżej rozkład zmiennej `years`, czyli wiek nieruchmości. W zbiorze danych większość obserwacji jest w przedziale 23-70 lat.
 
 ```{r}
-p3 <- ggplot(dane, aes(x = years)) + 
+ggplot(data, aes(x = m2_living, y = bedrooms)) + 
+  geom_point(color = "navy", alpha = 0.4) + 
+  theme_bw() +
+  labs(x = "Living", y = "Number of bedrooms")
+```
+
+
+```{r}
+p3 <- ggplot(data, aes(x = age)) + 
   geom_density(fill = "navy", alpha = 0.4) + 
   theme_bw() +
-  labs(x = "Wiek nieruchomości")
-p4 <- ggplot(dane, aes(x = years)) + 
+  labs(x = "Age")
+p4 <- ggplot(data, aes(x = age)) + 
   theme_bw() +
   geom_boxplot(fill = "navy", alpha = 0.4) + 
   theme(axis.text.y = element_blank(), axis.ticks.y = element_blank()) + 
-  labs(x = "Wiek nieruchomości")
+  labs(x = "Age")
 
 grid.arrange(p3, p4, nrow = 2, heights = c(2, 1))
 
-ggplot(dane, aes(x = years, y = price)) +
+ggplot(data, aes(x = age, y = price_log)) +
   geom_point(color = "navy", alpha = 0.4) +
   theme_bw() + 
-  labs(x = "Wiek nieruchomości", y = "Cena")
+  labs(x = "Age", y = "Logarithm of price")
 
-ggplot(dane[dane$yr_renovated != 0,], aes(x = years, y = years_from_renovation)) +
+ggplot(data[data$since_renovated != 0,], aes(x = age, y = since_renovated)) +
   geom_point(color = "navy", alpha = 0.4) +
   theme_bw() + 
-  labs(x = "Wiek nieruchomości", y = "Lata od renowacji")
+  labs(x = "Age", y = "Since renovated")
 
-ggplot(dane, aes(x = sqft_above, y = sqft_basement)) +
+ggplot(data, aes(x = m2_above, y = m2_basement)) +
   theme_bw() +
   geom_point(color = "navy", alpha = 0.4) +
-  labs(x = "Powierzchnia pięter", y = "Powierzchnia piwnicy")
+  labs(x = "Above", y = "Basement")
 
 ```
 
 
-### Tablice
+### Table 
 
-#### Liczba sypialni vs liczba łazienek
+#### Number of bedrooms vs number of bathrooms
 
 ```{r}
-data.frame(table(dane$bedrooms, dane$bathrooms)) -> t
+data.frame(table(data$bedrooms, data$bathrooms)) -> t
 names(t) <- c("Bedrooms", "Bathrooms", "Freq")
 
 
@@ -232,15 +223,15 @@ ggplot(t, aes(x = Bedrooms, y = Bathrooms, fill = Freq, label = Freq)) +
   geom_text(size = 2.5) +
   scale_x_discrete(position = "top") + 
   scale_y_discrete(limits = rev(levels(t$Bathrooms))) + 
-  labs(x = "Liczba sypialni", y = "Liczba łazienek", fill = "") +
+  labs(x = "Number of bedrooms", y = "Number of bathrooms", fill = "") +
   theme(legend.position = "none", axis.ticks.x = element_blank(), axis.ticks.y = element_blank())
 
 ```
 
-#### Piętro vs liczba łazienek
+#### Condition vs number of bathrooms
 
 ```{r}
-data.frame(table(dane$bathrooms, dane$condition)) -> t
+data.frame(table(data$bathrooms, data$condition)) -> t
 names(t) <- c("Bathrooms", "Condition", "Freq")
 
 
@@ -251,15 +242,15 @@ ggplot(t, aes(x = Condition, y = Bathrooms, fill = Freq, label = Freq)) +
   geom_text(size = 2.5) +
   scale_x_discrete(position = "top") + 
   scale_y_discrete(limits = rev(levels(t$Bathrooms))) + 
-  labs(x = "Piętro", y = "Liczba łazienek", fill = "") +
+  labs(x = "Condition", y = "Number of bathrooms", fill = "") +
   theme(legend.position = "none", axis.ticks.x = element_blank(), axis.ticks.y = element_blank())
 
 ```
 
-#### Piętro vs liczba sypialni 
+#### Condition vs number of bathrooms 
 
 ```{r}
-data.frame(table(dane$bedrooms, dane$condition)) -> t
+data.frame(table(data$bedrooms, data$condition)) -> t
 names(t) <- c("Bedrooms", "Condition", "Freq")
 
 
@@ -270,15 +261,15 @@ ggplot(t, aes(x = Condition, y = Bedrooms, fill = Freq, label = Freq)) +
   geom_text(size = 2.5) +
   scale_x_discrete(position = "top") + 
   scale_y_discrete(limits = rev(levels(t$Bedrooms))) + 
-  labs(x = "Piętro", y = "Liczba sypialni", fill = "") +
+  labs(x = "Condition", y = "Number of bathrooms", fill = "") +
   theme(legend.position = "none", axis.ticks.x = element_blank(), axis.ticks.y = element_blank())
 
 ```
 
-#### Widok na wodę vs piętro
+#### Waterfront vs condition
 
 ```{r}
-data.frame(table(dane$waterfront, dane$condition)) -> t
+data.frame(table(data$waterfront, data$condition)) -> t
 names(t) <- c("Waterfront", "Condition", "Freq")
 
 
@@ -289,14 +280,14 @@ ggplot(t, aes(x = Waterfront, y = Condition, fill = Freq, label = Freq)) +
   geom_text(size = 2.5) +
   scale_x_discrete(position = "top") + 
   scale_y_discrete(limits = rev(levels(t$Condition))) + 
-  labs(x = "Widok na wodę", y = "Piętro", fill = "") +
+  labs(x = "Waterfront", y = "Condition", fill = "") +
   theme(legend.position = "none", axis.ticks.x = element_blank(), axis.ticks.y = element_blank()) 
 ```
 
-#### Piętro vs jakość konstrukcji i wykończenia
+#### Condition vs Grade
 
 ```{r}
-data.frame(table(dane$grade, dane$condition)) -> t
+data.frame(table(data$grade, data$condition)) -> t
 names(t) <- c("Grade", "Condition", "Freq")
 
 
@@ -307,14 +298,14 @@ ggplot(t, aes(x = Condition, y = Grade, fill = Freq, label = Freq)) +
   geom_text(size = 2.5) +
   scale_x_discrete(position = "top") + 
   scale_y_discrete(limits = rev(levels(t$Grade))) + 
-  labs(x = "Piętro", y = "Jakość konstrukcji i wykończenia", fill = "") +
+  labs(x = "Condition", y = "Grade", fill = "") +
   theme(legend.position = "none", axis.ticks.x = element_blank(), axis.ticks.y = element_blank()) 
 ```
 
-#### Liczba sypialni vs jakoś konstrukcji i wykończenia
+#### Number of bedrooms vs grade
 
 ```{r}
-data.frame(table(dane$grade, dane$bedrooms)) -> t
+data.frame(table(data$grade, data$bedrooms)) -> t
 names(t) <- c("Grade", "Bedrooms", "Freq")
 
 
@@ -325,14 +316,14 @@ ggplot(t, aes(x = Bedrooms, y = Grade, fill = Freq, label = Freq)) +
   geom_text(size = 2.5) +
   scale_x_discrete(position = "top") + 
   scale_y_discrete(limits = rev(levels(t$Grade))) + 
-  labs(x = "Liczba sypialni", y = "Jakość konstrukcji i wykończenia", fill = "") +
+  labs(x = "Number of bedrooms", y = "Grade", fill = "") +
   theme(legend.position = "none", axis.ticks.x = element_blank(), axis.ticks.y = element_blank()) 
 ```
 
-#### Liczba łazienek vs jakość konstrukcji i wykończenia
+#### Number of bathrooms vs grade
 
 ```{r}
-data.frame(table(dane$grade, dane$bathrooms)) -> t
+data.frame(table(data$grade, data$bathrooms)) -> t
 names(t) <- c("Grade", "Bathrooms", "Freq")
 
 
@@ -343,6 +334,6 @@ ggplot(t, aes(x = Bathrooms, y = Grade, fill = Freq, label = Freq)) +
   geom_text(size = 2.5) +
   scale_x_discrete(position = "top") + 
   scale_y_discrete(limits = rev(levels(t$Grade))) + 
-  labs(x = "Liczba łazienek", y = "Jakość konstrukcji i wykończenia", fill = "") +
+  labs(x = "Number of bathrooms", y = "Grade", fill = "") +
   theme(legend.position = "none", axis.ticks.x = element_blank(), axis.ticks.y = element_blank()) 
 ```
