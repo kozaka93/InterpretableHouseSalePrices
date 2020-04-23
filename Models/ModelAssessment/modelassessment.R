@@ -12,6 +12,10 @@ library(DALEXtra)
 ## load model
 load("Models/PredictiveModels/mlr/randomforest/mod_randomforest.rda")
 
+## load data
+train <- read.csv("Data/TrainAndTest/train.csv")
+test <- read.csv("Data/TrainAndTest/test.csv")
+
 ## create explain object  
 rf_explain_train <- DALEXtra::explain_mlr(model = mod_randomforest, 
                                                       data = train, 
@@ -44,12 +48,12 @@ load("Models/PredictiveModels/mlr/gbm/mod_gbm.rda")
 gbm_explain_train <- DALEXtra::explain_mlr(model = mod_gbm, 
                                                       data = train, 
                                                       y = train$price_log, 
-                                                      label = "randomforest")
+                                                      label = "gbm")
 
-gbm_explain_test <- DALEXtra::explain_mlr(model = gbm, 
+gbm_explain_test <- DALEXtra::explain_mlr(model = mod_gbm, 
                                                      data = test, 
                                                      y = test$price_log,
-                                                     label = "randomforest")
+                                                     label = "gbm")
 
 ## rmse score
 model_performance(gbm_explain_train, score = "rmse")

@@ -2,7 +2,7 @@
 
 ## library 
 library(mlr)
-library(ranger)
+library(gbm)
 library(DALEX)
 library(DALEXtra)
 
@@ -35,6 +35,7 @@ res <- tuneParams("regr.gbm",
 lrn <- setHyperPars(makeLearner("regr.gbm"), 
                     par.vals = res$x)
 
+## model
 mod_gbm <- train(lrn, tsk)
 
 ## session info
@@ -44,4 +45,4 @@ mod_gbm <- train(lrn, tsk)
 # [1] stats     graphics  grDevices utils     datasets  methods   base     
 # 
 # other attached packages:
-# [1] DALEXtra_0.2.1    DALEX_1.0.1 ranger_0.12.1     mlr_2.17.0  ParamHelpers_1.13
+# [1] DALEXtra_0.2.1    DALEX_1.0.1  gbm_2.1.5     mlr_2.17.0  ParamHelpers_1.13
