@@ -12,7 +12,7 @@
 ###  Residuals
 
 
-<img src="../../Figures/density_residuals.png" align="center" width="500"/>
+<img src="../../Figures/density_residuals.png" align="center" width="900"/>
 
 
-<img src="../../Figures/boxplot_residuals.png" align="center" width="500"/>
+<img src="../../Figures/boxplot_residuals.png" align="center" width="900"/>
