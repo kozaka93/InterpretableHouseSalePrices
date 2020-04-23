@@ -29,7 +29,7 @@ houses = houses_cp
 
 
 ## DISTANCE TO THE NEAREST STOP
-stops = pd.read_csv("./Data/stops.txt")
+stops = pd.read_csv("./Data/ExternalData/stops.txt")
 houses["dist_stop"] = np.nan # new column
 rows = houses.index
 # for each house find distances to all stops and pick the minimal one
@@ -41,7 +41,7 @@ for n in rows:
 
 
 # CULTURAL PLACES
-cult = pd.read_csv("./Data/cultural.csv")
+cult = pd.read_csv("./Data/ExternalData/cultural.csv")
 cult = cult[["Latitude","Longitude"]]
 cult.columns=["lat","long"]
 cult = cult.dropna()
@@ -87,5 +87,5 @@ from sklearn.model_selection import train_test_split
 df_train, df_test = train_test_split(houses,test_size=0.3)
 
 #save
-df_train.to_csv("train2.csv")
-df_test.to_csv("test2.csv")
+df_train.to_csv("train.csv")
+df_test.to_csv("test.csv")
