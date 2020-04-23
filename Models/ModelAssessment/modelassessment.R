@@ -39,9 +39,6 @@ model_performance(rf_explain_test, score = "rmse")
 rf_residual_train <- plot(model_residual(rf_explain_train), type = "prediction")
 rf_residual_test <- plot(model_residual(rf_explain_test), type = "prediction")
 
-# plot(rf_mr, lm_mr, type = "prediction", abline = TRUE)
-# plot(rf_mr, lm_mr, type = "residual_density")
-# plot(lm_mr, rf_mr, type = "residual_boxplot")
 
 #### gbm model ####
 
@@ -67,9 +64,6 @@ model_performance(gbm_explain_test, score = "rmse")
 gbm_residual_train <- plot(model_residual(gbm_explain_train), type = "prediction")
 gbm_residual_test <- plot(model_residual(gbm_explain_test), type = "prediction")
 
-# plot(rf_mr, lm_mr, type = "prediction", abline = TRUE)
-# plot(rf_mr, lm_mr, type = "residual_density")
-# plot(lm_mr, rf_mr, type = "residual_boxplot")
 
 #### xgboost model ####
 
@@ -95,10 +89,40 @@ model_performance(xgboost_explain_test, score = "rmse")
 xgboost_residual_train <- plot(model_residual(xgboost_explain_train), type = "prediction")
 xgboost_residual_test <- plot(model_residual(xgboost_explain_test), type = "prediction")
 
-# plot(rf_mr, lm_mr, type = "prediction", abline = TRUE)
-# plot(rf_mr, lm_mr, type = "residual_density")
-# plot(lm_mr, rf_mr, type = "residual_boxplot")
 
-plot(model_residual(rf_explain_test), model_residual(gbm_explain_test), model_residual(xgboost_explain_test), type = "residual_density")
+#### decision tree model ####
 
-plot(model_residual(rf_explain_test), model_residual(gbm_explain_test), model_residual(xgboost_explain_test), type = "residual_boxplot")
+## load model
+load("Models/PredictiveModels/mlr/decisionTree/mod_rpart.rda")
+
+
+
+## create explain object  
+train$waterfront <- factor(train$waterfront)
+test$waterfront <- factor(test$waterfront)
+train$zipcode <- factor(train$zipcode)
+test$zipcode <- factor(test$zipcode)
+dt_explain_train <- DALEXtra::explain_mlr(model = mod_rpart, 
+                                          data = train, 
+                                          y = train$price_log, 
+                                          label = "decision tree")
+
+dt_explain_test <- DALEXtra::explain_mlr(model = mod_rpart, 
+                                         data = test, 
+                                         y = test$price_log,
+                                         label = "decision tree")
+
+## rmse score
+model_performance(dt_explain_train, score = "rmse")
+model_performance(dt_explain_test, score = "rmse")
+
+## residual
+dt_residual_train <- plot(model_residual(dt_explain_train), type = "prediction")
+dt_residual_test <- plot(model_residual(dt_explain_test), type = "prediction")
+
+
+
+## plots
+plot(model_residual(rf_explain_test), model_residual(gbm_explain_test), model_residual(xgboost_explain_test), model_residual(dt_explain_test), type = "residual_density")
+
+plot(model_residual(rf_explain_test), model_residual(gbm_explain_test), model_residual(xgboost_explain_test), model_residual(dt_explain_test), type = "residual_boxplot")
