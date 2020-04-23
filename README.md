@@ -9,7 +9,7 @@ We have divided our work into several stages, below we present a diagram with a 
 ### Literature 
 - [Papers](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Literature)
 ### Data
-- [Data analysis](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Data)
+- [Data analysis](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Data/DataAnalysis)
 - [External data](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Data)
 ### Models
 - Model assessment methods
