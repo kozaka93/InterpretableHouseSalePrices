@@ -35,83 +35,84 @@ The following analysis has been prepared on a data collection describing the sal
 
 Below is a density and boxplot plot describing the variable `price_log`. 
 
-<img src="Figures/1.png" align="center" width="900"/>
+<img src="Figures/1.png" align="center" width="700"/>
 
 ### Relationship between logarithm of price  and other variables
 
 #### Number of bedrooms
 
-<img src="Figures/2.png" align="center" width="900"/>
+<img src="Figures/2.png" align="center" width="700"/>
 
 #### Number of bathrooms
 
-<img src="Figures/3.png" align="center" width="900"/>
+<img src="Figures/3.png" align="center" width="700"/>
 
 #### Number of floor
 
-<img src="Figures/4.png" align="center" width="900"/>
+<img src="Figures/4.png" align="center" width="700"/>
 
 #### Condition
 
 
-<img src="Figures/5.png" align="center" width="900"/>
+<img src="Figures/5.png" align="center" width="700"/>
 
 #### Grade
 
-<img src="Figures/6.png" align="center" width="900"/>
+<img src="Figures/6.png" align="center" width="700"/>
+
 #### Year of construction
 
 
-<img src="Figures/7.png" align="center" width="900"/>
+<img src="Figures/7.png" align="center" width="700"/>
 
 #### Construction year for property below 1 million
 
-<img src="Figures/8.png" align="center" width="900"/>
+<img src="Figures/8.png" align="center" width="700"/>
 
 #### View
 
 
-<img src="Figures/9.png" align="center" width="900"/>
+<img src="Figures/9.png" align="center" width="700"/>
 
 ### Other dependencies
 
-<img src="Figures/10.png" align="center" width="900"/>
+<img src="Figures/10.png" align="center" width="700"/>
 
 
-<img src="Figures/11.png" align="center" width="900"/>
+<img src="Figures/11.png" align="center" width="700"/>
 
 
-<img src="Figures/12.png" align="center" width="900"/>
-<img src="Figures/13.png" align="center" width="900"/>
-<img src="Figures/14.png" align="center" width="900"/>
-<img src="Figures/15.png" align="center" width="900"/>
+<img src="Figures/12.png" align="center" width="700"/>
+<img src="Figures/13.png" align="center" width="700"/>
+<img src="Figures/14.png" align="center" width="700"/>
+<img src="Figures/15.png" align="center" width="700"/>
 
 ### Table 
 
 #### Number of bedrooms vs number of bathrooms
 
-<img src="Figures/16.png" align="center" width="900"/>
+<img src="Figures/16.png" align="center" width="700"/>
 
 #### Condition vs number of bathrooms
 
-<img src="Figures/17.png" align="center" width="900"/>
+<img src="Figures/17.png" align="center" width="700"/>
 
 #### Condition vs number of bathrooms 
 
-<img src="Figures/18.png" align="center" width="900"/>
+<img src="Figures/18.png" align="center" width="700"/>
 
 #### Waterfront vs condition
 
-<img src="Figures/19.png" align="center" width="900"/>
+<img src="Figures/19.png" align="center" width="700"/>
 
 #### Condition vs Grade
 
-<img src="Figures/20.png" align="center" width="900"/>
+<img src="Figures/20.png" align="center" width="700"/>
 
 #### Number of bedrooms vs grade
 
-<img src="Figures/21.png" align="center" width="900"/>
+<img src="Figures/21.png" align="center" width="700"/>
 
 #### Number of bathrooms vs grade
 
-<img src="Figures/22.png" align="center" width="900"/>
+<img src="Figures/22.png" align="center" width="700"/>
