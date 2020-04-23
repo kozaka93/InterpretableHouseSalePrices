@@ -10,12 +10,6 @@ library(DALEXtra)
 train <- read.csv("Data/TrainAndTest/train.csv")
 test <- read.csv("Data/TrainAndTest/test.csv")
 
-# ## change numeric to factor for waterfront and zipcode
-# train$waterfront <- factor(train$waterfront)
-# test$waterfront <- factor(test$waterfront)
-# train$zipcode <- factor(train$zipcode)
-# test$zipcode <- factor(test$zipcode)
-
 ## selection of parameters for the xgboost model based on the rmse metric
 ## on the training set
 tsk <- makeRegrTask(data = train, target = "price_log")
@@ -41,7 +35,7 @@ lrn <- setHyperPars(makeLearner("regr.xgboost"),
 ## Trenowanie modelu
 mod_xgboost <- train(lrn, tsk)
 
-#save(mod_xgboost, file = "Models/PredictiveModels/mlr/xgboost/mod_xgboost.rda")
+
 ## session info
 # R version 3.6.3 (2020-02-29)
 # 
@@ -49,4 +43,4 @@ mod_xgboost <- train(lrn, tsk)
 # [1] stats     graphics  grDevices utils     datasets  methods   base     
 # 
 # other attached packages:
-# [1] DALEXtra_0.2.1    DALEX_1.0.1 ranger_0.12.1     mlr_2.17.0  ParamHelpers_1.13
+# [1] DALEXtra_0.2.1    DALEX_1.0.1  xgboost_1.0.0.2    mlr_2.17.0  ParamHelpers_1.13

@@ -3,18 +3,22 @@
 ## library 
 library(mlr)
 library(ranger)
+library(gbm)
+library(xgboost)
 library(auditor)
 library(DALEX)
 library(DALEXtra)
 
-## randomforest model
+## load data
+train <- read.csv("Data/TrainAndTest/train.csv")
+test <- read.csv("Data/TrainAndTest/test.csv")
+
+#### randomforest model ####
 
 ## load model
 load("Models/PredictiveModels/mlr/randomforest/mod_randomforest.rda")
 
-## load data
-train <- read.csv("Data/TrainAndTest/train.csv")
-test <- read.csv("Data/TrainAndTest/test.csv")
+
 
 ## create explain object  
 rf_explain_train <- DALEXtra::explain_mlr(model = mod_randomforest, 
@@ -39,7 +43,7 @@ rf_residual_test <- plot(model_residual(rf_explain_test), type = "prediction")
 # plot(rf_mr, lm_mr, type = "residual_density")
 # plot(lm_mr, rf_mr, type = "residual_boxplot")
 
-## gbm model
+#### gbm model ####
 
 ## load model
 load("Models/PredictiveModels/mlr/gbm/mod_gbm.rda")
@@ -60,9 +64,41 @@ model_performance(gbm_explain_train, score = "rmse")
 model_performance(gbm_explain_test, score = "rmse")
 
 ## residual
-rf_residual_train <- plot(model_residual(gbm_explain_train), type = "prediction")
-rf_residual_test <- plot(model_residual(gbm_explain_test), type = "prediction")
+gbm_residual_train <- plot(model_residual(gbm_explain_train), type = "prediction")
+gbm_residual_test <- plot(model_residual(gbm_explain_test), type = "prediction")
 
 # plot(rf_mr, lm_mr, type = "prediction", abline = TRUE)
 # plot(rf_mr, lm_mr, type = "residual_density")
 # plot(lm_mr, rf_mr, type = "residual_boxplot")
+
+#### xgboost model ####
+
+## load model
+load("Models/PredictiveModels/mlr/xgboost/mod_xgboost.rda")
+
+## create explain object  
+xgboost_explain_train <- DALEXtra::explain_mlr(model = mod_xgboost, 
+                                           data = train, 
+                                           y = train$price_log, 
+                                           label = "xgboost")
+
+xgboost_explain_test <- DALEXtra::explain_mlr(model = mod_xgboost, 
+                                          data = test, 
+                                          y = test$price_log,
+                                          label = "xgboost")
+
+## rmse score
+model_performance(xgboost_explain_train, score = "rmse")
+model_performance(xgboost_explain_test, score = "rmse")
+
+## residual
+xgboost_residual_train <- plot(model_residual(xgboost_explain_train), type = "prediction")
+xgboost_residual_test <- plot(model_residual(xgboost_explain_test), type = "prediction")
+
+# plot(rf_mr, lm_mr, type = "prediction", abline = TRUE)
+# plot(rf_mr, lm_mr, type = "residual_density")
+# plot(lm_mr, rf_mr, type = "residual_boxplot")
+
+plot(model_residual(rf_explain_test), model_residual(gbm_explain_test), model_residual(xgboost_explain_test), type = "residual_density")
+
+plot(model_residual(rf_explain_test), model_residual(gbm_explain_test), model_residual(xgboost_explain_test), type = "residual_boxplot")
