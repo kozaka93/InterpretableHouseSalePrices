@@ -35,10 +35,6 @@ rf_explain_test <- DALEXtra::explain_mlr(model = mod_randomforest,
 model_performance(rf_explain_train, score = "rmse")
 model_performance(rf_explain_test, score = "rmse")
 
-## residual
-rf_residual_train <- plot(model_residual(rf_explain_train), type = "prediction")
-rf_residual_test <- plot(model_residual(rf_explain_test), type = "prediction")
-
 
 #### gbm model ####
 
@@ -60,11 +56,6 @@ gbm_explain_test <- DALEXtra::explain_mlr(model = mod_gbm,
 model_performance(gbm_explain_train, score = "rmse")
 model_performance(gbm_explain_test, score = "rmse")
 
-## residual
-gbm_residual_train <- plot(model_residual(gbm_explain_train), type = "prediction")
-gbm_residual_test <- plot(model_residual(gbm_explain_test), type = "prediction")
-
-
 #### xgboost model ####
 
 ## load model
@@ -84,11 +75,6 @@ xgboost_explain_test <- DALEXtra::explain_mlr(model = mod_xgboost,
 ## rmse score
 model_performance(xgboost_explain_train, score = "rmse")
 model_performance(xgboost_explain_test, score = "rmse")
-
-## residual
-xgboost_residual_train <- plot(model_residual(xgboost_explain_train), type = "prediction")
-xgboost_residual_test <- plot(model_residual(xgboost_explain_test), type = "prediction")
-
 
 #### decision tree model ####
 
@@ -115,11 +101,6 @@ dt_explain_test <- DALEXtra::explain_mlr(model = mod_rpart,
 ## rmse score
 model_performance(dt_explain_train, score = "rmse")
 model_performance(dt_explain_test, score = "rmse")
-
-## residual
-dt_residual_train <- plot(model_residual(dt_explain_train), type = "prediction")
-dt_residual_test <- plot(model_residual(dt_explain_test), type = "prediction")
-
 
 
 ## plots
