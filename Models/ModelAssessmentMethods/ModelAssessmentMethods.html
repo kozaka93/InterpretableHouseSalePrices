@@ -12,7 +12,7 @@
 <meta name="author" content="Anna Kozak" />
 
 
-<title>Ocena modelu regresyjnego</title>
+<title>Model Assessment Methods</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -375,20 +375,24 @@ summary {
 
 
 
-<h1 class="title toc-ignore">Ocena modelu regresyjnego</h1>
+<h1 class="title toc-ignore">Model Assessment Methods</h1>
 <h4 class="author">Anna Kozak</h4>
 
 </div>
 
 
-<div id="sposoby-oceny-jakości-predykcji-modelu-regresji" class="section level4">
-<h4>Sposoby oceny jakości predykcji modelu regresji</h4>
-<p>Oznaczmy <span class="math inline">\(x_i\)</span> jako wektor zmiennych objaśniających, natomiast <span class="math inline">\(y_i\)</span> jako odpowiadającą mu wartość zmiennej zależnej. Oznaczmy przez <span class="math inline">\(\hat{y} = f(x)\)</span> predykcję modelu <span class="math inline">\(f()\)</span> odpowiadające <span class="math inline">\(y_i\)</span>.</p>
-<p>Niech <span class="math inline">\(X=(x_1&#39;, \dots, x_n&#39;)\)</span> oznacza macierz zmiennych objaśniających dla wszystkich <span class="math inline">\(n\)</span> obserwacji oraz <span class="math inline">\(y=(y_1, \dots, y_n)&#39;\)</span> wektor wartości zmiennej objaśnianej.</p>
+<p>Notation</p>
 <ul>
-<li><span class="math inline">\(MSE\)</span> <em>(Mean Square Error)</em></li>
+<li><p><span class="math inline">\(x_i\)</span> - vector of values of the explanatory variables for the i-th observation</p></li>
+<li><p><span class="math inline">\(y_i\)</span> - the corresponding value of the dependent variable</p></li>
+<li><p><span class="math inline">\(\hat{y_i}=f(x_i)\)</span> - model’s f() prediction corresponding to <span class="math inline">\(y_i\)</span></p></li>
+<li><p><span class="math inline">\(X(x_1&#39;,…,x_n&#39;)\)</span> - the matrix of explanatory variables for all n observations</p></li>
+<li><p><span class="math inline">\(y=(y_1,…,y_n)′\)</span> - vector of the values of the dependent variable</p></li>
+<li><p><span class="math inline">\(r_i=f(x_i)−y_i\)</span> - the residual for the i-th observation.</p></li>
+<li><p><span class="math inline">\(f_0()\)</span> - denotes a ‘’baseline’’ model</p></li>
+<li><p><span class="math inline">\(MSE\)</span> <em>(Mean Square Error)</em></p></li>
 </ul>
-<p><span class="math display">\[MSE(f, X, y) = \frac{1}{n}\sum_{i}^{n}(f(x_i)-y_i)^2 = \frac{1}{n}\sum_{i}^{n}r_i^2,\]</span> gdzie <span class="math inline">\(r_i=f(x_i)-y_i\)</span> oznacza resztę dla <span class="math inline">\(i\)</span>-tej obserwacji. Dla perfekcyjnego modelu, czyli takiego gdzie wszystkie predykcykcje są równe wartościom <span class="math inline">\(y_i\)</span>, <span class="math inline">\(MSE=0\)</span>.</p>
+<p><span class="math display">\[MSE(f, X, y) = \frac{1}{n}\sum_{i}^{n}(f(x_i)-y_i)^2 = \frac{1}{n}\sum_{i}^{n}r_i^2\]</span></p>
 <ul>
 <li><span class="math inline">\(RMSE\)</span> <em>(Root Mean Square Error)</em></li>
 </ul>
@@ -396,11 +400,11 @@ summary {
 <ul>
 <li><span class="math inline">\(R^2\)</span> <em>(Coefficient of determination)</em></li>
 </ul>
-<p><span class="math display">\[R^2(f, X, y) = 1 - \frac{MSE(f, X, y)}{MSE(f_0, X, y)}\]</span> <span class="math inline">\(f_0\)</span> oznacza bazowy model. Dla klasycznej regresji liniowej oznacza to, że jako predykcję dla każdej obserwacji przyjmujemy średnią ze wszystkich wartości <span class="math inline">\(Y\)</span>.</p>
+<p><span class="math display">\[R^2(f, X, y) = 1 - \frac{MSE(f, X, y)}{MSE(f_0, X, y)}\]</span></p>
 <ul>
 <li><span class="math inline">\(MAD\)</span> <em>(Median Absolute Deviation)</em></li>
 </ul>
-<p><span class="math display">\[MAD(f, X, y) = median(|r_1|, \dots, |r_n|)\]</span> Miara <span class="math inline">\(MAD\)</span> jest bardziej odporna na outliery niż <span class="math inline">\(MSE\)</span>.</p>
+<p><span class="math display">\[MAD(f, X, y) = median(|r_1|, \dots, |r_n|)\]</span> <span class="math inline">\(MAD\)</span> is more resistant to outliers than <span class="math inline">\(MSE\)</span>.</p>
 <ul>
 <li><span class="math inline">\(MAE\)</span> <em>(Mean Absolute Error)</em></li>
 </ul>
@@ -409,33 +413,6 @@ summary {
 <li><span class="math inline">\(MAPE\)</span> <em>(Mean absolute percentage error)</em></li>
 </ul>
 <p><span class="math display">\[MAPE(f, X, y) = \frac{100\%}{n}\sum_{i}^{n}\Big|\frac{r_i}{y_i}\Big|\]</span></p>
-<ul>
-<li><p><span class="math inline">\(Testy \ statystyczne\)</span></p>
-<ul>
-<li><span class="math inline">\(t-test\)</span></li>
-</ul>
-<p>Możemy ocenić czy średnia wartość reszt jest równa 0.</p>
-<ul>
-<li><span class="math inline">\(Welch \ test\)</span></li>
-</ul>
-<p>Możemy ocenić czy średnia wartość reszt w zbiorze treningowy jest równa średniej wartości reszt w zbiorze testowym.</p>
-<ul>
-<li><span class="math inline">\(F-test\)</span></li>
-</ul>
-<p>Prównanie wariancji reszt ze zbiory treningowego oraz reszt ze zbioru testowego. Aby wykorzystać F-test, rozkłady muszą być z rozkładu normalnego, sprawdzamy testem Shapiro-Wilka.</p>
-<ul>
-<li><span class="math inline">\(Kolmogorov-Smirnov \ test\)</span></li>
-</ul>
-<p>Test do oceny podobieństwa rozkładu prawdopodobieństwa reszt ze zbioru treningowego i testowego.</p></li>
-</ul>
-</div>
-<div id="inne-pomysły" class="section level4">
-<h4>Inne pomysły</h4>
-<ul>
-<li><em>Średni błąd względny</em></li>
-</ul>
-<p><span class="math display">\[\frac{1}{n}\sum_{i}^{n}\frac{|y_i - \hat{y_i}|}{y_i}\]</span></p>
-</div>
 
 
 

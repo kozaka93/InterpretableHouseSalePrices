@@ -1,0 +1,60 @@
+---
+title: "Model Assessment Methods"
+author: "Anna Kozak"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+Notation 
+
+- $x_i$ -  vector of values of the explanatory variables for the i-th observation
+
+- $y_i$ - the corresponding value of the dependent variable
+
+- $\hat{y_i}=f(x_i)$ - model’s f() prediction corresponding to $y_i$
+
+- $X(x_1',…,x_n')$  - the matrix of explanatory variables for all n observations
+
+- $y=(y_1,…,y_n)′$ - vector of the values of the dependent variable
+
+- $r_i=f(x_i)−y_i$ - the residual for the i-th observation.
+
+- $f_0()$ - denotes a ''baseline'' model
+
+
+* $MSE$ *(Mean Square Error)*
+
+$$MSE(f, X, y) = \frac{1}{n}\sum_{i}^{n}(f(x_i)-y_i)^2 = \frac{1}{n}\sum_{i}^{n}r_i^2$$
+
+
+
+* $RMSE$ *(Root Mean Square Error)*
+
+$$RMSE(f, X, y) = \sqrt{MSE(f, X, y)}$$
+
+
+
+* $R^2$ *(Coefficient of determination)*
+
+$$R^2(f, X, y) = 1 - \frac{MSE(f, X, y)}{MSE(f_0, X, y)}$$
+
+
+* $MAD$ *(Median Absolute Deviation)*
+
+$$MAD(f, X, y) = median(|r_1|, \dots, |r_n|)$$
+$MAD$ is more resistant to outliers than $MSE$.
+
+
+* $MAE$ *(Mean Absolute Error)*
+
+$$MAE(f, X, y) = \frac{1}{n}\sum_{i}^{n}|r_i|$$
+
+* $MAPE$ *(Mean absolute percentage error)*
+
+$$MAPE(f, X, y) = \frac{100\%}{n}\sum_{i}^{n}\Big|\frac{r_i}{y_i}\Big|$$
+
+
