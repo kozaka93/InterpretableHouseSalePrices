@@ -2,7 +2,7 @@
 
 ### Notation  
 
-<img src="Figures/0.png" align="center" width="700"/>
+<img src="Figures/0.png" align="center" width="600"/>
 
 #### * *MSE (Mean Square Error)*
 
