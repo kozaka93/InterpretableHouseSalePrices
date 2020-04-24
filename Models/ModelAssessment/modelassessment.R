@@ -103,6 +103,88 @@ model_performance(dt_explain_train, score = "rmse")
 model_performance(dt_explain_test, score = "rmse")
 
 
+#### xgboost onehot ####
+
+## load model
+load("Models/PredictiveModels/mlr/xgboost_onehot/mod_xgboost_onehot.rda")
+
+
+
+xgb_onehot_explain_train <- DALEXtra::explain_mlr(model = mod_xgboost, 
+                                                  data = train, 
+                                                  y = train$price_log, 
+                                                  label = "xgboost")
+
+xgb_onehot_explain_test <- DALEXtra::explain_mlr(model = mod_xgboost, 
+                                                 data = test, 
+                                                 y = test$price_log,
+                                                 label = "xgboost")
+
+## rmse score
+model_performance(xgb_onehot_explain_train, score = "rmse")
+model_performance(xgb_onehot_explain_test, score = "rmse")
+
+
+
+#### gbm onehot ####
+
+## load model
+load("Models/PredictiveModels/mlr/gbm_onehot/mod_gbm_onehot.rda")
+
+
+gbm_onehot_explain_train <- DALEXtra::explain_mlr(model = mod_gbm_onehot, 
+                                                  data = train, 
+                                                  y = train$price_log, 
+                                                  label = "gbm")
+
+gbm_onehot_explain_test <- DALEXtra::explain_mlr(model = mod_gbm_onehot, 
+                                                 data = test, 
+                                                 y = test$price_log,
+                                                 label = "gbm")
+
+## rmse score
+model_performance(gbm_onehot_explain_train, score = "rmse")
+
+model_performance(gbm_onehot_explain_test, score = "rmse")
+
+#### randomforest_onehot ###
+
+load("Models/PredictiveModels/mlr/randomforest_onehot/mod_randomforest_onehot.rda")
+rf_onehot_explain_train <- DALEXtra::explain_mlr(model = mod_randomforest_onehot, 
+                                                 data = train, 
+                                                 y = train$price_log, 
+                                                 label = "randomforest")
+
+rf_onehot_explain_test <- DALEXtra::explain_mlr(model = mod_randomforest_onehot, 
+                                                data = test, 
+                                                y = test$price_log,
+                                                label = "randomforest")
+
+## rmse score
+model_performance(rf_onehot_explain_train, score = "rmse")
+model_performance(rf_onehot_explain_test, score = "rmse")
+
+
+#### decision tree one hot ####
+
+
+dt_onehot_explain_train <- DALEXtra::explain_mlr(model = mod_rpart_onehot, 
+                                                 data = train, 
+                                                 y = train$price_log, 
+                                                 label = "decision tree")
+
+dt_onehot_explain_test <- DALEXtra::explain_mlr(model = mod_rpart_onehot, 
+                                                data = test, 
+                                                y = test$price_log,
+                                                label = "decision tree")
+
+## rmse score
+model_performance(dt_onehot_explain_train, score = "rmse")
+model_performance(dt_onehot_explain_test, score = "rmse")
+
+
+
+
 ## plots
 plot(model_residual(rf_explain_test), model_residual(gbm_explain_test), model_residual(xgboost_explain_test), model_residual(dt_explain_test), type = "residual_density")
 
