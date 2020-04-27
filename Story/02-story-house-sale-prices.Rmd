@@ -85,6 +85,22 @@ Based on the literature we decided to test the following models:
 Another idea how to enrich our solution was to add external data. The location of the property can significantly affect the price, so we also took into account the distance from public transport and the number of cultural facilities within a kilometre radius.
 
 
+## Data preperation
+
+Original data is in good quality at the start, but we need to preprocess it to suit our needs. In this section we want to describe how we prepared ready-to-use `csv`s of the train and test data (`train.csv`, `test_csv`). This includes variable transformations, joining external data, records processing.
+
+Firstly, we discovered that there are houses that were sold twice and one house that was sold three times. One can assume, that it was bought, renovated and then sold for more. But they have the same explanatory variables, no changes. Each pair (triple) of houses we decide to aggregate into a single row with averaging the price. 
+
+Secondly, we decided to add external data. Why? We believe most variables describe the house properly. What we are missing is some spatial information. Except zipcode, we have longitude and latitude -- good, that'd be helpful -- but we want to explain it more. Why some locations tend to be more expensive? Maybe it's because of public transport availability. That's why we decided to add a variable discribing a distance to the nearest bus/subway stop. Data source can be found [here].
+
+There might be also another reason. Maybe some houses are more expensive, because of some interesting places around, like museums, galleries or fine restaurants. We'll call them *cultural places*. Those places are not only standalone facilities, but they are connected to other infrastructure, which generally should increase the price. This time we decided to look in the neighborhood: we search for number of such places in arbitrarly chosem 1km range. 
+
+We also did several variable transformations. Since for authors is hard to think in square feet, we translate it into square meters. `zipcode` and `waterfront` are saved as factors. Further, for us it's easier for us to interprate the age of a building rather than year when it was built. We also know, if and when a house has been renovated. We can also analyse *relative age*, that is time which has past since last renovation (variable `since_renovated`). Here we also log the price, since we want to work on the relative scale.
+
+Last step is division the data into train and test samples randomly with ratio 70/30.
+
+Ready script for processing the original data from kaggle is on the github. For spatial data analysis, we were using a short script `geofast`, which is included at our github. Distances between two arbitrary points on earth can be obtained from the [geopy](https://pypi.org/project/geopy/) package for Python. However, general and precise formula is computionally expensive. With simple trick, it can be adjusted to our case without loosing almost any precision. This can be done providing distances to measure are not exceeding several hundrets kilometers. The original idea was published [here](https://blog.mapbox.com/fast-geodesic-approximations-with-cheap-ruler-106f229ad016).
+
 ## Model 
 
 Place a description of the model(s) here. Focus on key information on the design and quality of the model(s) developed.
