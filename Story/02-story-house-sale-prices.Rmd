@@ -99,7 +99,7 @@ We also did several variable transformations. Since for authors is hard to think
 
 Last step is division the data into train and test samples randomly with ratio 70/30.
 
-Ready script for processing the original data from kaggle is on the github. For spatial data analysis, we were using a short script `geofast`, which is included at our github. Distances between two arbitrary points on earth can be obtained from the [geopy](https://pypi.org/project/geopy/) package for Python. However, general and precise formula is computionally expensive. With simple trick, it can be adjusted to our case without loosing almost any precision. This can be done providing distances to measure are not exceeding several hundrets kilometers. The original idea was published [here](https://blog.mapbox.com/fast-geodesic-approximations-with-cheap-ruler-106f229ad016).
+Ready script for processing the original data from kaggle is on the github. For spatial data analysis, we were using a short script [`geofast`](https://github.com/kozaka93/InterpretableHouseSalePrices/blob/master/Data/TrainAndTest/geofast.py). Distances between two arbitrary points on earth can be obtained from the [geopy](https://pypi.org/project/geopy/) package for Python. However, general and precise formula is computionally expensive. With simple trick, it can be adjusted to our case without loosing almost any precision. This can be done providing distances to measure are not exceeding several hundrets kilometers. The original idea was published [here](https://blog.mapbox.com/fast-geodesic-approximations-with-cheap-ruler-106f229ad016).
 
 ## Model 
 
