@@ -4,8 +4,8 @@
 
 *Mentors: Mateusz Zawisza (McKinsey & Company), Adam Zmaczyński (McKinsey & Company)*
 
-> ,,That's all your house is: it's a place to keep your stuff while you go out and get more stuff.''
->  *George Carlin*
+> ''That's all your house is: it's a place to keep your stuff while you go out and get more stuff.''
+>  `r tufte::quote_footer('George Carlin')`
 
 
 
@@ -31,55 +31,69 @@ In this work we want to try to find an answer to both questions with stronger em
 These are just some of the questions we can ask. As a definition of our problem, we have set ourselves a property valuation, and through explanations we will try to get an answer depending on the position we choose.
 
 
-We have divided our work into several stages, below we present a diagram with a step plan. It allowed us to plan our work, and now we will use it to tell you what we did.
+We have divided our work into several stages, below we present a diagram (Figure \@ref(fig:plan)) with a step plan. It allowed us to plan our work, and now we will use it to tell you what we did.
 
 
-```{r, cache=FALSE, out.width="600", fig.align="center", echo=FALSE}
+```{r plan, out.width="700", fig.align="center", echo=FALSE, fig.cap='A scheme with a step-by-step plan that allowed us to plan our work.'}
 knitr::include_graphics('images/02-plan.png')
 ```
 
-We started our work with a literature review. Many works show a comparison of hedonistic models (linear regression) and machine learning models. Below there is a plot with comparison of results achieved by models interpretable by design (hedonistic) and black box model (ANN) based on the article \@ref(house_prices).
+We started our work with a literature review. Many papers show a comparison of hedonistic models (linear regression) and machine learning models. Below is a graph with results achieved by models that can be interpreted by design (hedonistic) and black box model (ANN) based on the article [@house_prices].
 
-```{r , cache=FALSE, out.width="400", fig.align="center", echo=FALSE}
-knitr::include_graphics('images/02-model_article.png')
+
+```{r paper-plot, out.width="600", fig.align="center", echo=FALSE, fig.cap='Comparison of the performance of hedonic regression model and ANN(artificial neural networks).'}
+knitr::include_graphics('images/02-model-article.png')
 ```
 
-We can conclude that we reduce the interpretability to an increase in the quality of model fitting.
+We can conclude from Figure \@ref(fig:paper-plot) that we reduce the interpretability to an increase in the quality of model fitting.
 
 The next point was data analysis, we work on dataset which contains house sale prices for King County, which includes Seattle. It is include homes sold between May 2014 and May 2015. Data available on [kaggle](https://www.kaggle.com/harlfoxem/housesalesprediction) and [openml](https://www.openml.org/d/42079).
-We have analyzed the data. More [link](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Reports/DataAnalysis). Data contains 19 house features plus the price and the id columns, along with 21613 observations. 
+We have analyzed the data, [more](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Data/DataAnalysis). Data contains 19 house features plus the price and the id columns, along with 21613 observations. 
 
-- `id` unique ID for each home sold
-- `date` date of the home sale
-- `price` price of each home sold
-- `bedrooms` number of bedrooms
-- `bathrooms` number of bathrooms, where .5 accounts for a room with a toilet but no shower
-- `sqft_living` square footage of the apartments interior living space
-- `sqft_lot` square footage of the land space
-- `floors` sumber of floors
-- `waterfront` apartment was overlooking the waterfront or not
-- `view` how good the view of the property was
-- `condition` condition of the apartment
-- `grade` level of construction and design
-- `sqft_above` the square footage of the interior housing space that is above ground level
-- `sqft_basement` the square footage of the interior housing space that is below ground level
-- `yr_built` the year the house was initially built
-- `yr_renovated` the year of the house's last renovation
-- `zipcode` zipcode area
-- `lat` lattitude
-- `long` longitude
-- `sqft_living15` the square footage of interior housing living space for the nearest 15 neighbors
-- `sqft_lot15` the square footage of the land lots of the nearest 15 neighbors
 
-We have collected methods to evaluate the performance of the regression model, we decided to use RMSRE (root mean square relative errors), because the difference of 50 thousand on a property worth millions and 50 thousand on a property worth 200 thousand is quite considerable. More about measures [link]().
+
+|Variable | Description|
+|---------|------------|
+|`id`| unique ID for each home sold|
+|`date`| date of the home sale|
+|`price`| price of each home sold|
+|`bedrooms`| number of bedrooms|
+|`bathrooms`| number of bathrooms, where .5 accounts for a room with a toilet but no shower|
+|`sqft_living`| square footage of the apartments interior living space|
+|`sqft_lot`| square footage of the land space|
+|`floors`| sumber of floors|
+|`waterfront`| apartment was overlooking the waterfront or not|
+|`view`| how good the view of the property was|
+|`condition`| condition of the apartment|
+|`grade`| level of construction and design|
+|`sqft_above`| the square footage of the interior housing space that is above ground level|
+|`sqft_basement`| the square footage of the interior housing space that is below ground level|
+|`yr_built`| the year the house was initially built|
+|`yr_renovated`| the year of the house's last renovation|
+|`zipcode`| zipcode area|
+|`lat`| lattitude|
+|`long`| longitude|
+|`sqft_living15`| the square footage of interior housing living space for the nearest 15 neighbors|
+|`sqft_lot15`| the square footage of the land lots of the nearest 15 neighbors|
+
+Table: Description of variables in the dataset.
+
+We have collected methods to evaluate the performance of the regression model, we decided to use RMSE (root mean square errors).
 
 Based on the literature we decided to test the following models:
+
 - fixed effects model
+
 - random effects model
+
 - Spatial Autoregressive (SAR) model
+
 - linear regression
+
 - decision tree
+
 - random forest
+
 - gradient boosting, xgboost
 
 Another idea how to enrich our solution was to add external data. The location of the property can significantly affect the price, so we also took into account the distance from public transport and the number of cultural facilities within a kilometre radius.
@@ -87,7 +101,58 @@ Another idea how to enrich our solution was to add external data. The location o
 
 ## Model 
 
-Place a description of the model(s) here. Focus on key information on the design and quality of the model(s) developed.
+
+
+
+[here about linear regression]
+
+Our main goal, as we mention before, is to explain the model of choice.  Along self-explainatory linear models included as comparision, we considered models including: 
+
+- decision tree
+
+- random forest
+
+- gradient boosting
+
+- xgboost.
+
+As mentioned earlier, the variables `zipcode` and `waterfront` were introduced as categorical. These models were built. Additionally, for the `zipcode` variable, which has 70 levels, we use one-hot encoding and build models again. The models are built in `mlr` [@mlr] R package with `ranger` [@ranger], `gbm` [@gbm], `xgboost` [@XGBoost] and `rpart` [@rpart].
+
+For the models the RMSE score was calculated on the training and test set, the results were presented in the Figure \@ref(fig:rmse-train-test). The smallest RMSE has a random forest model, xgboost, xgboost with one-hot encoding and gbm with one-hot encoding. Other models have a much bigger error. So let's take a look at these four models. 
+
+```{r rmse-train-test, out.width="700", fig.align="center", echo=FALSE, fig.cap='Comparison of model performance by RMSE on training and test set. In the plot the trained models are marked with points, on the x-axis we have RMSE measure for the training set, on the y-axis the RMSE score for the test set, line stands for RMSE equal on training and test sets'}
+knitr::include_graphics('images/02-rmse-train-test.png')
+```
+
+
+|Model |RMSE train | RMSE test |
+|------|:---------:|:---------:|
+|random forest | 0.07931109 |	0.1674559 |
+|xgboost |	0.1076962 |	0.1600113|
+
+
+Table: Model results on the training and test set.
+
+By analyzing the received models we obtained the following results. The random forest model is overfitted, while the xgboost model is a little better. On the test set they obtained similar scores. The Figure \@ref(fig:residual-1) shows the density of the residuals, for both models. We see that the xgboost model has larger residuals than the random forest model.
+
+```{r residual-1, out.width="700", fig.align="center", echo=FALSE, fig.cap='Residuals density for random forest and xgboost models.'}
+knitr::include_graphics('images/02-residuals1.png')
+```
+
+
+Comparing the xgboost model with one-hot encoding and gbm with one-hot encoding we see that the RMSE score on the training and test set is very similar. Furthermore, the residual density plot (Figure \@ref(fig:residual-2) ) is practically identical. 
+
+|Model |RMSE train | RMSE test |
+|------|:---------:|:---------:|
+|xgboost one-hot |	0.1207626 |	0.1595913|
+|gbm one-hot |	0.1302585 |	0.1607376 |
+
+
+Table: Model results on the training and test set with one-hot encoding.
+
+```{r residual-2, out.width="700", fig.align="center", echo=FALSE, fig.cap='Residuals density for gbm and xgboost models.'}
+knitr::include_graphics('images/02-residuals2.png')
+```
 
 ## Explanations
 
