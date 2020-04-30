@@ -87,7 +87,7 @@ Another idea how to enrich our solution was to add external data. The location o
 
 ## Data preperation
 
-Original data is in good quality at the start, but we need to preprocess it to suit our needs. In this section we want to describe how we prepared ready-to-use `csv`s of the train and test data (`train.csv`, `test_csv`). This includes variable transformations, joining external data, records processing.
+Original data is in good quality at the start, but we need to preprocess it to suit our needs. In this section we want to describe how we prepared ready-to-use `csv`s of the train and test data ([`train.csv`](https://github.com/kozaka93/InterpretableHouseSalePrices/blob/master/Data/TrainAndTest/test.csv), [`test_csv`](https://github.com/kozaka93/InterpretableHouseSalePrices/blob/master/Data/TrainAndTest/train.csv). This includes variable transformations, joining external data, records processing.
 
 Firstly, we discovered that there are houses that were sold twice and one house that was sold three times. One can assume, that it was bought, renovated and then sold for more. But they have the same explanatory variables, no changes. Each pair (triple) of houses we decide to aggregate into a single row with averaging the price. 
 
