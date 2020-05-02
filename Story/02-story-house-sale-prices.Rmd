@@ -101,6 +101,7 @@ Another idea how to enrich our solution was to add external data. The location o
 
 ## Model 
 
+
 [here about linear regression]
 
 Our main goal, as we mention before, is to explain the model of choice.  Along self-explainatory linear models included as comparision, we considered models including: 
