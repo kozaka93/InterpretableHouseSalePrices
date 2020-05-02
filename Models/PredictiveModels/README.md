@@ -14,7 +14,7 @@
 |random forest one-hot|[link](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Models/PredictiveModels/mlr/randomforest_onehot)|`num.trees` = 155, `mtry` = 4, `min.node.size` = 1|
 |decision tree one-hot|[link](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Models/PredictiveModels/mlr/decisionTree_onehot)|`minsplit` = 35, `minbucket` = 9, `cp` = 0.0167|
 |lm |[link](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Models/PredictiveModels/LinearModels)|log-loglinear|
-|lm||[link](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Models/PredictiveModels/LinearModels)|zipcode-based intercepts|
+|lm|[link](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Models/PredictiveModels/LinearModels)|zipcode-based intercepts|
 |lm|[link](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Models/PredictiveModels/LinearModels)|random effects|
 
 
