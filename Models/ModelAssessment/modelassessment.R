@@ -11,7 +11,8 @@ library(DALEXtra)
 
 ## load data
 train <- read.csv("Data/TrainAndTest/train.csv")
-test <- read.csv("Data/TrainAndTest/test.csv")
+train <- read.csv("Data/TrainAndTest/train_onehot.csv")
+test <- read.csv("Data/TrainAndTest/test_onehot.csv")
 
 #### randomforest model ####
 
@@ -110,12 +111,12 @@ load("Models/PredictiveModels/mlr/xgboost_onehot/mod_xgboost_onehot.rda")
 
 
 
-xgb_onehot_explain_train <- DALEXtra::explain_mlr(model = mod_xgboost, 
+xgb_onehot_explain_train <- DALEXtra::explain_mlr(model = mod_xgboost_onehot, 
                                                   data = train, 
                                                   y = train$price_log, 
                                                   label = "xgboost")
 
-xgb_onehot_explain_test <- DALEXtra::explain_mlr(model = mod_xgboost, 
+xgb_onehot_explain_test <- DALEXtra::explain_mlr(model = mod_xgboost_onehot, 
                                                  data = test, 
                                                  y = test$price_log,
                                                  label = "xgboost")
