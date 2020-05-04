@@ -11,14 +11,14 @@
 
 ## Introduction 
 
-Everybody needs a roof over their heads. It can be a house, villa or a flat. Everybody, at some point of life, faces a choice if to buy a house. If so, which one. And why they are so expensive?
+Everybody needs a roof over their heads. It can be a house, villa, or a flat. Everybody, at some point in life, faces a choice if to buy a house. If so, which one. And why they are so expensive?
 
-Topic of real estates is not only the topic you just have to deal with. It can also be very interesting. There are plenty of TV Shows, for instance *Property Brothers*, of which plot is based on examples of people buying and renovating houses. This particular one is the most famous in the world and has been running already almost a decade. 
+The topic of real estate is not only the topic you just have to deal with. It can also be very interesting. There are plenty of TV Shows, for instance, *Property Brothers*, of which plot is based on examples of people buying and renovating houses. This particular one is the most famous in the world and has been running already for almost a decade. 
 For many people houses are also products to buy and sell with income.
 
 Regardless of motives of buy/sell real estate, both sides agree to a price. It is always good to know, **how much** it is worth, what's the fair/true value. And, maybe it's even more important, **why** the price is like that, what has an influence on it.
 
-In this work we want to try to find an answer to both questions with stronger emphasis on the second one. This paper is intended to be a complete use cases how to deal with regression problem for Data Scientists. Let's start with a couple of questions that will allow us to understand and define the problems
+In this work we want to try to find an answer to both questions with a stronger emphasis on the second one. This paper is intended to be a complete use case on how to deal with the regression problem for Data Scientists. Let's start with a couple of questions that will allow us to understand and define the problems
 
 - *The seller does not know how to increase the cost of the apartment so that the investment outlay is lower than the added value (e.g. building a pool will increase the price and renovating the bathroom is not worth it).*
 
@@ -28,7 +28,7 @@ In this work we want to try to find an answer to both questions with stronger em
 
 - *Commercial problem: Auction services do not have tools to support sellers/buyers.*
 
-These are just some of the questions we can ask. As a definition of our problem, we have set ourselves a property valuation, and through explanations we will try to get an answer depending on the position we choose.
+These are just some of the questions we can ask. As a definition of our problem, we have set ourselves a property valuation, and thorough explanations we will try to get an answer depending on the position we choose.
 
 
 We have divided our work into several stages, below we present a diagram (Figure \@ref(fig:plan)) with a step plan. It allowed us to plan our work, and now we will use it to tell you what we did.
@@ -47,7 +47,7 @@ knitr::include_graphics('images/02-model-article.png')
 
 We can conclude from Figure \@ref(fig:paper-plot) that we reduce the interpretability to an increase in the quality of model fitting.
 
-The next point was data analysis, we work on dataset which contains house sale prices for King County, which includes Seattle. It is include homes sold between May 2014 and May 2015. Data available on [kaggle](https://www.kaggle.com/harlfoxem/housesalesprediction) and [openml](https://www.openml.org/d/42079).
+The next point was data analysis, we work on a dataset which contains house sale prices for King County, which includes Seattle. It is include homes sold between May 2014 and May 2015. Data available on [kaggle](https://www.kaggle.com/harlfoxem/housesalesprediction) and [openml](https://www.openml.org/d/42079).
 We have analyzed the data, [more](https://github.com/kozaka93/InterpretableHouseSalePrices/tree/master/Data/DataAnalysis). Data contains 19 house features plus the price and the id columns, along with 21613 observations. 
 
 
@@ -61,7 +61,7 @@ We have analyzed the data, [more](https://github.com/kozaka93/InterpretableHouse
 |`bathrooms`| number of bathrooms, where .5 accounts for a room with a toilet but no shower|
 |`sqft_living`| square footage of the apartments interior living space|
 |`sqft_lot`| square footage of the land space|
-|`floors`| sumber of floors|
+|`floors`| number of floors|
 |`waterfront`| apartment was overlooking the waterfront or not|
 |`view`| how good the view of the property was|
 |`condition`| condition of the apartment|
@@ -96,31 +96,31 @@ Based on the literature we decided to test the following models:
 
 - gradient boosting, xgboost
 
-Another idea how to enrich our solution was to add external data. The location of the property can significantly affect the price, so we also took into account the distance from public transport and the number of cultural facilities within a kilometre radius.
+Another idea of how to enrich our solution was to add external data. The location of the property can significantly affect the price, so we also took into account the distance from public transport and the number of cultural facilities within a kilometer radius.
 
 
 ## Data preperation
 
-[Original data from kaggle](https://www.kaggle.com/harlfoxem/housesalesprediction) is in good quality at the start, but we need to preprocess it to suit our needs. In this section we want to describe how we prepared ready-to-use `csv`s of the train and test data ([`train.csv`](https://github.com/kozaka93/InterpretableHouseSalePrices/blob/master/Data/TrainAndTest/test.csv), [`test_csv`](https://github.com/kozaka93/InterpretableHouseSalePrices/blob/master/Data/TrainAndTest/train.csv). This includes variable transformations, joining external data, records processing.
+[Original data from kaggle](https://www.kaggle.com/harlfoxem/housesalesprediction) is in good quality at the start, but we need to preprocess it to suit our needs. In this section we want to describe how we prepared ready-to-use `csv`s of the train and test data ([`train.csv`](https://github.com/kozaka93/InterpretableHouseSalePrices/blob/master/Data/TrainAndTest/test.csv), [`test.csv`](https://github.com/kozaka93/InterpretableHouseSalePrices/blob/master/Data/TrainAndTest/train.csv). This includes variable transformations, joining external data, records processing.
 
-Firstly, we discovered that there are houses that were sold twice and one house that was sold three times. One can assume, that it was bought, renovated and then sold for more. But they have the same explanatory variables, no changes. Each pair (triple) of houses we decide to aggregate into a single row with averaging the price. 
+Firstly, we discovered that there are houses that were sold twice, and one house that was sold three times. One can assume, that it was bought, renovated and then sold for more. But they have the same explanatory variables, no changes. Each pair (triple) of houses we decide to aggregate into a single row with averaging the price. 
 
-Secondly, we decided to add external data. Why? We believe most variables describe the house properly. What we are missing is some spatial information. Except zipcode, we have longitude and latitude -- good, that'd be helpful -- but we want to explain it more. Why some locations tend to be more expensive? Maybe it's because of public transport availability. That's why we decided to add a variable discribing a distance to the nearest bus/subway stop. Data source can be found [here](https://www.kingcounty.gov/depts/transportation/metro/travel-options/bus/app-center/developer-resources.aspx).
+Secondly, we decided to add external data. Why? We believe most variables describe the house properly. What we are missing is some spatial information. Except zip code, we have longitude and latitude -- good, that'd be helpful -- but we want to explain it more. Why some locations tend to be more expensive? Maybe it's because of public transport availability. That's why we decided to add a variable describing a distance to the nearest bus/subway stop. Data source can be found [here](https://www.kingcounty.gov/depts/transportation/metro/travel-options/bus/app-center/developer-resources.aspx).
 
-There might be also another reason. Maybe some houses are more expensive, because of some interesting places around, like museums, galleries or fine restaurants. We'll call them *cultural places*. Those places are not only standalone facilities, but they are connected to other infrastructure, which generally should increase the price. This time we decided to look in the neighborhood: we search for number of such places in arbitrarly chosem 1km range. Data obtained from [here](https://data.seattle.gov/Community/Seattle-Cultural-Space-Inventory/vsxr-aydq).
+There might be also another reason. Maybe some houses are more expensive, because of some interesting places around, like museums, galleries or fine restaurants. We'll call them *cultural places*. Those places are not only standalone facilities, but they are connected to other infrastructure, which generally should increase the price. This time we decided to look in the neighborhood: we search for a number of such places in arbitrarily chosen 1km range. Data obtained from [here](https://data.seattle.gov/Community/Seattle-Cultural-Space-Inventory/vsxr-aydq).
 
-We also did several variable transformations. Since for authors is hard to think in square feet, we translate it into square meters. `zipcode` and `waterfront` are saved as factors. Further, for us it's easier for us to interprate the age of a building rather than year when it was built. We also know, if and when a house has been renovated. We can also analyse *relative age*, that is time which has past since last renovation (variable `since_renovated`). Here we also log the price, since we want to work on the relative scale.
+We also did several variable transformations. Since for authors it is hard to think in square feet, we translate it into square meters. `zipcode` and `waterfront` are saved as factors. Further, for us it's easier for us to interpret the age of a building rather than a year when it was built. We also know, if and when a house has been renovated. We can also analyze *relative age*, that is the time which has past since last renovation (variable `since_renovated`). Here we also log the price, since we want to work on a relative scale.
 
-Last step is division the data into train and test samples randomly with ratio 70/30.
+The last step is division the data into train and test samples randomly with ratio 70/30.
 
-Ready script for processing the original data from kaggle is on the github. For spatial data analysis, we were using a short script [`geofast`](https://github.com/kozaka93/InterpretableHouseSalePrices/blob/master/Data/TrainAndTest/geofast.py). Distances between two arbitrary points on earth can be obtained from the [@geopy] package for Python. However, general and precise formula is computionally expensive. With simple trick, it can be adjusted to our case without loosing almost any precision. This can be done providing distances to measure are not exceeding several hundrets kilometers. The original idea was published [here](https://blog.mapbox.com/fast-geodesic-approximations-with-cheap-ruler-106f229ad016).
+Ready script for processing the original data from kaggle is on the github. For spatial data analysis, we were using a short script [`geofast`](https://github.com/kozaka93/InterpretableHouseSalePrices/blob/master/Data/TrainAndTest/geofast.py). Distances between two arbitrary points on earth can be obtained from the [@geopy] package for Python. However, general and precise formula is computationally expensive. With a simple trick, it can be adjusted to our case without losing almost any precision. This can be done by providing distances to measure are not exceeding several hundred kilometers. The original idea was published [here](https://blog.mapbox.com/fast-geodesic-approximations-with-cheap-ruler-106f229ad016).
 
 ## Model 
 
 
 [here about linear regression]
 
-Our main goal, as we mention before, is to explain the model of choice.  Along self-explainatory linear models included as comparision, we considered models including: 
+Our main goal, as we mentioned before, is to explain the model of choice.  Along self-explanatory linear models included as comparison, we considered models including: 
 
 - decision tree
 
@@ -132,9 +132,9 @@ Our main goal, as we mention before, is to explain the model of choice.  Along s
 
 As mentioned earlier, the variables `zipcode` and `waterfront` were introduced as categorical. These models were built. Additionally, for the `zipcode` variable, which has 70 levels, we use one-hot encoding and build models again. The models are built in `mlr` [@mlr] R package with `ranger` [@ranger], `gbm` [@gbm], `xgboost` [@XGBoost] and `rpart` [@rpart].
 
-For the models the RMSE score was calculated on the training and test set, the results were presented in the Figure \@ref(fig:rmse-train-test). The smallest RMSE has a random forest model, xgboost, xgboost with one-hot encoding and gbm with one-hot encoding. Other models have a much bigger error. So let's take a look at these four models. 
+For the models the RMSE score was calculated on the training and test set, the results were presented in the Figure \@ref(fig:rmse-train-test). The smallest RMSE has a random forest model, xgboost, xgboost with one-hot encoding, and gbm with one-hot encoding. Other models have a much bigger error. So let's take a look at these four models. 
 
-```{r rmse-train-test, out.width="700", fig.align="center", echo=FALSE, fig.cap='Comparison of model performance by RMSE on training and test set. In the plot the trained models are marked with points, on the x-axis we have RMSE measure for the training set, on the y-axis the RMSE score for the test set, line stands for RMSE equal on training and test sets'}
+```{r rmse-train-test, out.width="700", fig.align="center", echo=FALSE, fig.cap='Comparison of model performance by RMSE on training and test set. In the plot the trained models are marked with points, on the x-axis we have RMSE measure for the training set, on the y-axis the RMSE score for the test set, the line stands for RMSE equal on training and test sets'}
 knitr::include_graphics('images/02-rmse-train-test.png')
 ```
 
