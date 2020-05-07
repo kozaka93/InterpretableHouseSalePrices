@@ -21,8 +21,8 @@ decisiontree_explain <- explain_mlr(mod_rpart,
                                     y = test$price_log,
                                     label = "decision tree")
 fi_decisiontree <- model_parts(decisiontree_explain, 
-                            loss_function = loss_root_mean_square,
-                            n_sample = nrow(test))
+                            loss_function = DALEX::loss_root_mean_square,
+                            n_sample = NULL)
 
 save(fi_decisiontree, file = "Explanations/feature_importance/fi_decisiontree.rda")
 plot(fi_decisiontree)
@@ -34,8 +34,8 @@ gbm_explain <- explain_mlr(mod_gbm,
                           y = test$price_log,
                           label = "gbm")
 fi_gbm <- model_parts(gbm_explain, 
-                      loss_function = loss_root_mean_square,
-                       n_sample = nrow(test))
+                      loss_function = DALEX::loss_root_mean_square,
+                       n_sample = NULL)
 
 save(fi_gbm, file = "Explanations/feature_importance/fi_gbm.rda")
 plot(fi_gbm)
@@ -47,8 +47,8 @@ rf_explain <- explain_mlr(mod_randomforest,
                            y = test$price_log,
                            label = "randomforest")
 fi_rf <- model_parts(rf_explain, 
-                      loss_function = loss_root_mean_square,
-                      n_sample = nrow(test))
+                      loss_function = DALEX::loss_root_mean_square,
+                      n_sample = NULL)
 
 save(fi_rf, file = "Explanations/feature_importance/fi_rf.rda")
 plot(fi_rf)
@@ -60,8 +60,8 @@ xgb_explain <- explain_mlr(mod_xgboost,
                           y = test$price_log,
                           label = "xgboost")
 fi_xgb <- model_parts(xgb_explain, 
-                     loss_function = loss_root_mean_square,
-                     n_sample = nrow(test))
+                     loss_function = DALEX::loss_root_mean_square,
+                     n_sample = NULL)
 
 save(fi_xgb, file = "Explanations/feature_importance/fi_xgb.rda")
 plot(fi_xgb)
@@ -73,8 +73,8 @@ decisiontree_onehot_explain <- explain_mlr(mod_rpart_onehot,
                                     y = test_onehot$price_log,
                                     label = "decision tree one-hot")
 fi_decisiontree_onehot <- model_parts(decisiontree_onehot_explain, 
-                               loss_function = loss_root_mean_square,
-                               n_sample = nrow(test_onehot))
+                               loss_function = DALEX::loss_root_mean_square,
+                               n_sample = NULL)
 
 save(fi_decisiontree_onehot, file = "Explanations/feature_importance/fi_decisiontree_onehot.rda")
 plot(fi_decisiontree_onehot)
@@ -86,8 +86,8 @@ gbm_onehot_explain <- explain_mlr(mod_gbm_onehot,
                            y = test_onehot$price_log,
                            label = "gbm one-hot")
 fi_gbm_onehot <- model_parts(gbm_onehot_explain, 
-                      loss_function = loss_root_mean_square,
-                      n_sample = nrow(test_onehot))
+                      loss_function = DALEX::loss_root_mean_square,
+                      n_sample = NULL)
 
 save(fi_gbm_onehot, file = "Explanations/feature_importance/fi_gbm_onehot.rda")
 plot(fi_gbm_onehot)
@@ -99,8 +99,8 @@ rf_onehot_explain <- explain_mlr(mod_randomforest_onehot,
                           y = test_onehot$price_log,
                           label = "randomforest one-hot")
 fi_rf_onehot <- model_parts(rf_onehot_explain, 
-                     loss_function = loss_root_mean_square,
-                     n_sample = nrow(test_onehot))
+                     loss_function = DALEX::loss_root_mean_square,
+                     n_sample = NULL)
 
 save(fi_rf_onehot, file = "Explanations/feature_importance/fi_rf_onehot.rda")
 plot(fi_rf_onehot)
@@ -112,8 +112,8 @@ xgb_onehot_explain <- explain_mlr(mod_xgboost_onehot,
                            y = test_onehot$price_log,
                            label = "xgboost one-hot")
 fi_xgb_onehot <- model_parts(xgb_onehot_explain, 
-                      loss_function = loss_root_mean_square,
-                        n_sample = nrow(test_onehot))
+                      loss_function = DALEX::loss_root_mean_square,
+                        n_sample = NULL)
 
 save(fi_xgb_onehot, file = "Explanations/feature_importance/fi_xgb_onehot.rda")
 plot(fi_xgb_onehot)
@@ -124,8 +124,8 @@ lm_onehot_explain <- explain_mlr(mod_lm_onehot,
                                   y = test_onehot$price_log,
                                   label = "lm one-hot")
 fi_lm_onehot <- model_parts(lm_onehot_explain, 
-                             loss_function = loss_root_mean_square,
-                             n_sample = nrow(test_onehot))
+                             loss_function = DALEX::loss_root_mean_square,
+                             n_sample = NULL)
 
 save(fi_lm_onehot, file = "Explanations/feature_importance/fi_lm_onehot.rda")
 plot(fi_lm_onehot)
