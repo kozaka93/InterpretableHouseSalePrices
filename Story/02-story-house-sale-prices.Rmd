@@ -109,6 +109,15 @@ Secondly, we decided to add external data. Why? We believe most variables descri
 
 There might be also another reason. Maybe some houses are more expensive, because of some interesting places around, like museums, galleries or fine restaurants. We'll call them *cultural places*. Those places are not only standalone facilities, but they are connected to other infrastructure, which generally should increase the price. This time we decided to look in the neighborhood: we search for a number of such places in arbitrarily chosen 1km range. Data obtained from [here](https://data.seattle.gov/Community/Seattle-Cultural-Space-Inventory/vsxr-aydq).
 
+```{r spatial, out.width="600", fig.align="center", echo=FALSE, fig.cap='Spatial external data. Stops on the left and cultural places on the right.'}
+knitr::include_graphics('images/02-house-stops-cult.png')
+```
+
+Both of these external data we visualize at the figure @\ref(fig:spatial). At this point it is also worth a comment. Let us begin with the latter. Most of them, not all, are concentrated in the city centre. So this column also tells some story  *how much of the city center does this house have*. Since not all of those places are in the city center, then those other points should reflect some *local centers*.  
+
+Public transport stops are very dense in the city center, so they even cover house dots on the plot. Outside of the city center, one can also notice buses routes. It is quite clear, that not every house has good connection to public transport. That'd force parents to drive their children where they need to. For some people it would be kind of an obstacle, so they would rather more sceptical about that particular house, thus reducing demand of that house, which should lower the price.
+
+
 We also did several variable transformations. Since for authors it is hard to think in square feet, we translate it into square meters. `zipcode` and `waterfront` are saved as factors. Further, for us it's easier for us to interpret the age of a building rather than a year when it was built. We also know, if and when a house has been renovated. We can also analyze *relative age*, that is the time which has past since last renovation (variable `since_renovated`). Here we also log the price, since we want to work on a relative scale.
 
 The last step is division the data into train and test samples randomly with ratio 70/30.
