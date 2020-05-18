@@ -236,29 +236,121 @@ knitr::include_graphics('images/02-residuals2.png')
 
 ## Explanations
 
-In this chapter we will present the methods of explainable machine learning models. They allow us to understand the compiled models. Following the plan from the Figure \@ref(fig:plan), we will show the explanations for the three groups (seller, buyer, and ad portal), but before we do that, we will continue the analytical approach to the regression problem and show how to apply XAI methods in model evaluation.
 
-We use Feature Importance to evaluate which variables are important in the model. This measure helps the Data scientists assess which variables have the greatest impact on prediction. Below in Figure \@ref(fig:fi) created with R `ingredients` [@ingredients] package we have four models that have the best RMSE performance. Analyzing which variables are important in each model, we see that they all agree on the variables `lat`, which is latitude, `long`, which is longitude, `m2_living`, which is the  square meters of the apartments interior living space, and `grade`, which is the level of construction and design.
+In this chapter we will present the methods of explainable machine learning models. They allow us to understand the compiled models. Following the plan from the Figure \@ref(fig:plan), we will show the explanations for the three groups (seller, buyer, and ad portal), but before we do that, we will continue the analytical approach to the regression problem and show how to apply XAI methods in model evaluation. Before applications, we want to understand how these models work. At the beginning we'll start explaining four of them, dropping some along the way.    
+
+### XAI GPS
+
+Generally, we want to approach _explanations_ by discovering them. As we write this chapter, there are some ideas how to organize the explainable machine learning workflow, but it is more or less in alpha version. We want to explore XAI tools by playing with them. We predict, that we'll face some dead ends on the way, but that's also informative: one can learn from thier mistakes (ALBO) one can also experience the story of XAI Stories.    (KTÓRE?) We not only want to show where we are, but also how we got there.
+
+We begin our XAI Story by looking what kind of tools we have. Some are instance-level, some are dataset-level. Some discuss performance, some discuss preditions. Problem with instance-level tools is that it can be applied to every single instance and there are tens of thousands of them in our dataset. Of course we can choose several ones, but which? Some suggest those ones, where the model has highest residuals (REF DO KSIĄŻKI BURZYKOWSKIEGO/BIECKA, bo chyba tam to było) which seem to work quite nicely as bottom-up approach. So why not to try to explore top-down approach in this chapter. Start with four models that had best scores and see what happens. 
+
+
+
+### Feature importance
+
+We have around 20 variables, but it's highly unlikely, that each has the same impact on the prediction.
+ We use Feature Importance to evaluate which variables are important in each model. This measure helps the Data scientists assess which variables have the greatest influence. 
+
+Below, in Figure \@ref(fig:fi), we have four models that have the best RMSE performance. 
+
 
 ```{r fi, out.width="700", fig.align="center", echo=FALSE, fig.cap='Comparison of the importance of the permutation variables for four models with the best RMSE score. Colour indicates the model, each bar shows the difference between the loss function for the original data (dashed line) and the permuted data for a particular variable, the longer the bar the greater the difference. The bars for each model start in a different position on the x-axis, this depends on the value of the loss function for the original data set.'}
 knitr::include_graphics('images/02-fi.png')
 ```
 
-Now let's look at the observation for which the xgboost model makes the biggest misprediction.
+What we see, is that different models have different important variables. They also agree on some predictors. Is that ok? Yes, these are different models and they approach fitting to the train data differently. Is it that why we should trust them? Not now. Let's take a closer look.
 
-```{r bd-1, out.width="600", fig.align="center", echo=FALSE, fig.cap='Break Down Plot created with R `iBreakDown` [@iBreakDownRPackage] package for the observation whose prediction had the biggest error.'}
-knitr::include_graphics('images/02-bd-bad.png')
+### Partial Dependence Plots
+
+They all agree at `lat` and `long` which is latitude and logitude (basic knowledge might be memorization resistant: longitude describes _horizontal (W-E)_ position, latitude the _vertical (N-S)_ position). 
+
+```{r latlong, out.width="700", fig.align="center", echo=FALSE, fig.cap='PDP curves for 4 models. We clearly see that prices go much higher in the city center.'}
+knitr:::include_graphics('images/02-pdp_lat_long.png')
 ```
 
-The Break Down plot (Figure \@ref(fig:bd-1)) shows the spread of the final prediction value over the variables and their contribution. The biggest contribution to this observation is `grade` and `m2_living` variables, their contribution is positive for price prediction. The value of the variable `long` has a negative impact on the value of the prediction. In order to take a closer look at this variable, we can plot Ceteris Paribus profiles (Figure \@ref(fig:cp-1)).
+Second variable worth investigation is `m2_living`, house surface in square meters. What we expect is more or less linear increase. And so it is. With `grade` we also expected increasing curves, but not especially linear. What is interesting, price goes much higher, if the grade changes from 5-6 to 8-9. We will discuss this phenomenon later in details.
+
+```{r m2_grade, out.width="700", fig.align="center", echo=FALSE, fig.cap='PDP curves for surface and grade. Looks like Random Forest again pulls more towards the center.'}
+knitr:::include_graphics('images/02-pdp_living_grade.png')
+```
+
+ 
+
+Going on to `zipcode`. For random forest it is quite crucial, so let's take a closer look. This time, to compare all four models, we need another approach, since two of them are one-hot encoded on this variable: we generated all PDP plots and looked at all of the pairs for `xgboost_onehot` and `gbm_onehot` for every `zipcode`. Since there are far too many of them, we decided to show only the interesting ones. It turns out, that at most pairs they agree, but not at all of them. As an example, let's take a look at zipcodes 98010, 98106 and 98018 in the picture \@ref(fig:pdp_zipcodes) and \@ref(fig:map) -- we found them on the map. 
 
 
-```{r cp-1, out.width="600", fig.align="center", echo=FALSE, fig.cap='Ceteris Paribus profiles for the `long` variable, the line indicates the profiles for the observation, the x-axis indicates the value of the `long` variable, while the y-axis indicates the prediction for this observation when only the value of the `long` variable is changed, the dot indicates the value for the observation.'}
-knitr::include_graphics('images/02-cp-long.png')
+```{r pdp_zipcode, out.width="700", fig.align="center", echo=FALSE, fig.cap='PDP curves for zipcodes. This time random forest goes sensitive.'}
+knitr:::include_graphics('images/02-pdp_zipcode.png')
+```
+
+```{r map, out.width="700", fig.align="center", echo=FALSE, fig.cap='Zipcodes of interest on the map.'}
+knitr:::include_graphics('images/02-map.png')
+```
+
+After a little bit of investigation victims reveal: in area 98108 there is a loud airport. On the other hand 98010 is far from the city center, there is more space, so people build bigger houses. For instance, in 98010 one can easily find houses with living area of more than 300m² which is not so common in zipcodes 98106 and 98108. Remember, we were modelling (log of) the price of the whole house, not price of 1m². 
+
+
+There are more examples of variables that their PDP plots fit our expectations. The problem starts with such variables as `age`, `since_renovated` (how many years have passed since building or last renovation, whichever is less). In the background we also want to look at `dist_stop`. This pair is interesting, let's take a look at \@ref(fig:age). Right plot is almost ok: freshly renovated houses are much more expensive, but we observe strange behaviour of Random Forest.
+The left part is a surprise: the older the house is, the more it costs. That's strange, but it turns out, that older houses tend to be renovated. Rate of renovated houses starts to increase after houses reach 60 years. Half of a century might be a reason to do renovation for sure. To give some numbers: 11% of houses *over* 60 years old were renovated, and only 0.1% of houses *under* 40 years were renovated. What is more, `since_renovated` was more important for all of models than age. 
+
+```{r age, out.width="700", fig.align="center", echo=FALSE, fig.cap='Age and relative age of a building.'}
+knitr:::include_graphics('images/02-age.png')
+```
+
+For distance to the nearest bus stop PDP plots are shown at \@ref(fig:stop). We've trimmed `x` axis to 2000 meters, since 92% of observations fulfill that condition. Interesting is, that the shorter distance indicates lower prediction. The overall causality of this variable is rather not that strong. 
+
+```{r stop, out.width="700", fig.align="center", echo=FALSE, fig.cap='PDP curve for distance to the nearest bus stop.'}
+knitr:::include_graphics('images/02-pdp_dist_stop.png')
+```
+
+#### PDP summary
+
+We've seen a lot of PDP plots. Before we move to next tools, we will draw some conclusions so far. Most of PDP plots match our expectations. But there are also variables, where Random Forest cracks, such as `since_renovated`, `condition`, `m2_lot`, `m2_lot15` to mention a couple of them. I'd guess that it put far too much attention on the zipcodes rather than other variables, which were uncorrectly estimated. That'd also explain huge difference between RMSE on train and test data, Random Forest was overfitted. Other 3 models seem to agree with each other and with so-called common sense. [All models are wrong, but Many are usefull](http://www.jmlr.org/papers/v20/18-760.html), as statisticians say. If three other models agree on variable effect, it is hard to believe that the other model, that is saying the opposite, is right. At this point, we drop Random Forest and we won't be examining this model from different perspectives.
+
+At this point we also compare two one-hot encoded models, XGBoost and GBM. Their plots are almost identical and they match the XGBoost model without one-hot encoding. So among all 3 we might choose the one with best score, which is XGBoost. 
+
+So far we have discussed a lot of model-level explanations. Next subsection will focus more on instance-level contemplations.
+
+
+
+
+### Instance level explanations. 
+
+This subsection focuses on explaining particular houses. It is definitely not clear which observations should be examined. In previous subsection we tried PDP plots to check if we can trust the model and it worked out well.
+Here we will start with looking at:
+
+* houses with high misprediction and
+* houses with highest average price for 1 square meter
+
+hoping it will be meaningful. Note, error is measured linearly on the log-scale, so after the reverse transofmation we look for real estates that had high realtive misprediction. 
+
+What is more, in earlier analysis, among others we were considering zipcodes 98010, a quiet area of Black Diamond with Lake Sawyer. To this list we add zipcode 98039, which is Medina -- mostly residential city. Villas there are vast: 56% of them have at least 300m². Reason is that we want to analyse significantly larger houses in their natural enviroment. 
+
+Because we don't want the reader to get bored and waste a lot of space and reading time, we present most interesting observations in those zipcodes also remembering to cover all of the items on our list above. 
+
+
+Let's begin with zipcode 98010. Here we present a property that was the second expensive one. We decided to examine this one, instead of the most expensive one, because it had greater error and the first one we couldn't locate on Google Street View. This house built 23 years ago is high grade, has 300 square meters surface and large garden of 2000 square meters. Predicted value is 667 k\$, while true value is 902.5 k\$. Break-Down plot for this estate is presented in \@ref{fig:h_98010}. 
+
+
+```{r h_98010, out.width="700", fig.align="center", echo=FALSE, fig.cap='BD plot for hugely mispredicted house. It looses a lot of value because of its geographical position (far from Seattle), but gains a lot on grade and surface.'}
+knitr:::include_graphics('images/02-bd_98010.png')
+```
+
+As we can find up on a map, this particular property actually *has* acces to the lake and should had been marked with `waterfront = 1`. If it had, the prediction would be  787325 k\$, according to the XGBoost model, and that halves the relative error. From the picture \@ref{fig:h_98010} we could also conclude, that houses with `waterfront = 0` are not loosing so much, but they would highly gain when `waterfront` would be equal to 1. Another conclusion is that there are mistakes in the data frame.
+
+Next case is a house in Medina. We chose the one with highest average price for 1 square meter of the building. In the figure \@ref(fig:h_98039) we see Break Down plot for this house. All factors are in favor of this house. It is in good location, top grade, living surface is enormous, it has beautiful view, acces to the Lake Washington, neighborhood is wealthy. Predicted value is 3,961k\$, while true value was 3,640k\$. Interesting and counter intuitive is, that one variable has negative effect, and that is `floors`. This particular house has 2 levels. In the same picture we also plot CP profile for this variable, which says that having two floors is actually the best choice for this observation. 
+
+```{r h_98039, out.width="800", fig.align="center", echo=FALSE, fig.cap='BD plot for a villa in 98038 zipcode.'}
+knitr:::include_graphics('images/02-bd_cp_98039.png')
 ```
 
 
-Based on the Ceteris Paribus profile (Figure \@ref(fig:cp-1)), we see that if the analyzed property was located to the west of its current location, the price prediction would increase. However, if the property was located to the east, the prediction would decrease.
+## Use case of the model
+
+Przykład użycia modelu do znajdowania mieszkań, na których można wiele zyskać robiąc remont (`grade` rośnie z <5 na >8 (z pdp), `since_renovated` = 1)
+
+
 
 
 ## Summary and conclusions 
